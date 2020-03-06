@@ -13,15 +13,13 @@ public class Exercise5 {
         int[] smallMas2 = new int[10];
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Please enter 20 numbers");
-        for (int i = 0; i < 20; i++)
-        {
+        for (int i = 0; i < 20; i++) {
             bigMas[i] = Integer.parseInt(bufferedReader.readLine());
         }
-        smallMas1= Arrays.copyOfRange(bigMas, 0, 9);
-        smallMas2= Arrays.copyOfRange(bigMas, 10, 20);
+        smallMas1 = Arrays.copyOfRange(bigMas, 0, 9);
+        smallMas2 = Arrays.copyOfRange(bigMas, 10, 20);
 
-        for (int i = 0; i < 10; i++)
-        {
+        for (int i = 0; i < 10; i++) {
             System.out.println(smallMas2[i]);
         }
     }

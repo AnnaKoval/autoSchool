@@ -10,8 +10,7 @@ public class Exercise4 {
         int[] masOfIntegersReverse = new int[10];
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Please enter 10 numbers");
-        for (int i = 0; i < 10; i++)
-        {
+        for (int i = 0; i < 10; i++) {
             masOfIntegers[i] = Integer.parseInt(bufferedReader.readLine());
         }
         for (int i = 0; i < 10; i++) {
@@ -20,8 +19,7 @@ public class Exercise4 {
                 i++;
             }
         }
-        for (int i = 0; i < 10; i++)
-        {
+        for (int i = 0; i < 10; i++) {
             System.out.println(masOfIntegersReverse[i]);
         }
     }
