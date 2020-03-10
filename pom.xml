@@ -11,6 +11,7 @@
     <modules>
         <module>1-Programming</module>
         <module>2-OOP_Basics</module>
+        <module>3-ExceptionHandling</module>
     </modules>
 
     <build>
