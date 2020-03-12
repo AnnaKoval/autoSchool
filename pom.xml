@@ -13,6 +13,7 @@
         <module>2-OOP_Basics</module>
         <module>3-ExceptionHandling</module>
         <module>4-Generics</module>
+        <module>8-ContinuousIntegration</module>
     </modules>
 
     <build>
