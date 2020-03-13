@@ -2,7 +2,7 @@ package referenceTypes;
 
 public class Exercise1 {
     public static void main(String[] args) {
-        String str = "j.a gf .gj";
+        String str = "j.a gf";
         findElements(str);
         writeStrWithDot(str);
         countSpaces(str);
@@ -31,12 +31,8 @@ public class Exercise1 {
     }
 
     public static void countSpaces(String str) {
-        int count = -1;
+        int count = str.split(" ").length-1;
         char[] result = str.toCharArray();
-
-        for (String part : str.split(" ")) {
-            count++;
-        }
 
         if (result[str.length() - 1] == ' ') {
             count++;
