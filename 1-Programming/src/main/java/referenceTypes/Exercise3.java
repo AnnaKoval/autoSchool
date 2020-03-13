@@ -15,6 +15,8 @@ public class Exercise3 {
         for (String word : arrStr) {
             if (word.length() > maxStr.length())
                 maxStr = word;
+            else if (word.length()==maxStr.length())
+                System.exit(0);
         }
         System.out.println(maxStr);
     }

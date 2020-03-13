@@ -11,19 +11,14 @@ public class Exercise1 {
     public static void findElements(String str) {
         char[] result = str.toCharArray();
         System.out.println("Char array:");
-
         System.out.println("1 element " + result[0]);
 
         if (result.length % 2 == 0 && result.length != 1) {
             System.out.println("No average number");
+            System.out.println("Last element " + result[result.length - 1]);
         } else {
             int average = result.length / 2;
             System.out.println("Average number = " + result[average]);
-        }
-
-        if (result.length != 1) {
-            System.out.println("Last element " + result[result.length - 1]);
-        } else {
             System.out.println("First element = last element");
         }
     }
@@ -34,11 +29,10 @@ public class Exercise1 {
     }
 
     public static void countSpaces(String str) {
-        int count = 0;
-        for (int i = 0; i < str.length(); i++) {
-            if (str.charAt(i) == ' ') {
-                count++;
-            }
+        int count = -1;
+        for (String part : str.split(" ")) {
+            System.out.println(part);
+            count++;
         }
         System.out.println("Quantity of spaces = " + count);
     }

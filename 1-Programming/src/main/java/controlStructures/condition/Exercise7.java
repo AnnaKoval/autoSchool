@@ -8,17 +8,20 @@ import java.util.Random;
 public class Exercise7 {
     public static void main(String[] args) throws IOException {
         Random random = new Random();
-        int number = random.nextInt(20 + 1);
+        int number = random.nextInt(21);
         for (int i = 0; i < 7; i++) {
-            guess(number);
+            guess(number, i);
         }
     }
 
-    public static void guess(int number) throws IOException {
+    public static void guess(int number, int count) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Enter number");
         int n = Integer.parseInt(bufferedReader.readLine());
-        if (n < number) {
+        if (count == 6 && n != number) {
+            System.out.println("You fail :(");
+            System.exit(0);
+        } else if (n < number) {
             System.out.println("Few");
         } else if (n > number) {
             System.out.println("Many");

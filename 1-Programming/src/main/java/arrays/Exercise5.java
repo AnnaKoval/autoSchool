@@ -16,11 +16,19 @@ public class Exercise5 {
         for (int i = 0; i < 20; i++) {
             bigMas[i] = Integer.parseInt(bufferedReader.readLine());
         }
-        smallMas1 = Arrays.copyOfRange(bigMas, 0, 9);
-        smallMas2 = Arrays.copyOfRange(bigMas, 10, 20);
+//        smallMas1 = Arrays.copyOfRange(bigMas, 0, 9);
+//        smallMas2 = Arrays.copyOfRange(bigMas, 10, 20);
 
         for (int i = 0; i < 10; i++) {
-            System.out.println(smallMas2[i]);
+            smallMas1[i] = bigMas[i];
         }
+
+        for (int i = 10; i < 20; i++) {
+            smallMas2[i - 10] = bigMas[i];
+        }
+
+        System.out.println(Arrays.toString(smallMas1));
+        System.out.println();
+        System.out.println(Arrays.toString(smallMas2));
     }
 }

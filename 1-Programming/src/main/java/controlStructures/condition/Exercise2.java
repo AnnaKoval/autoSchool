@@ -7,18 +7,18 @@ import java.io.InputStreamReader;
 public class Exercise2 {
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        int number1 = Integer.parseInt(bufferedReader.readLine());
-        int number2 = Integer.parseInt(bufferedReader.readLine());
-        int number3 = Integer.parseInt(bufferedReader.readLine());
-        int number4 = Integer.parseInt(bufferedReader.readLine());
-        if (number1 >= number2 && number1 >= number3 && number1 > number4) {
-            System.out.println(number1);
-        } else if (number2 >= number1 && number2 >= number3 && number2 >= number4) {
-            System.out.println(number2);
-        } else if (number3 >= number1 && number3 >= number2 && number3 >= number4) {
-            System.out.println(number3);
-        } else if (number4 >= number1 && number4 >= number2 && number4 >= number3) {
-            System.out.println(number4);
+        int[] mas = new int[4];
+        for (int i = 0; i < 4; i++) {
+            mas[i] = Integer.parseInt(bufferedReader.readLine());
+        }
+        if (mas[0] >= mas[1] && mas[0] >= mas[2] && mas[0] > mas[3]) {
+            System.out.println(mas[0]);
+        } else if (mas[1] >= mas[0] && mas[1] >= mas[2] && mas[1] >= mas[3]) {
+            System.out.println(mas[1]);
+        } else if (mas[2] >= mas[0] && mas[2] >= mas[1] && mas[2] >= mas[3]) {
+            System.out.println(mas[2]);
+        } else if (mas[3] >= mas[0] && mas[3] >= mas[1] && mas[3] >= mas[2]) {
+            System.out.println(mas[3]);
         }
     }
 }

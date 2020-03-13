@@ -6,6 +6,6 @@ public class Exercise1 {
         int w = 8;
         int intResult = q / w;
         int rest = q % w;
-        System.out.println(intResult + " and " + rest + " in rest");
+        System.out.printf("%d and %d in rest", intResult, rest);
     }
 }

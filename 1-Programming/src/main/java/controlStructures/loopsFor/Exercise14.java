@@ -13,7 +13,7 @@ public class Exercise14 {
             for (int i = 0; i < n; i++) {
                 System.out.print("8");
             }
-            System.out.print("" + "\n");
+            System.out.println();
         }
     }
 }

@@ -7,21 +7,22 @@ import java.io.InputStreamReader;
 public class Exercise3 {
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        int number1 = Integer.parseInt(bufferedReader.readLine());
-        int number2 = Integer.parseInt(bufferedReader.readLine());
-        int number3 = Integer.parseInt(bufferedReader.readLine());
-        if (number1 >= number2 && number1 >= number3 && number2 > number3) {
-            System.out.println(number1 + " " + number2 + " " + number3);
-        } else if (number1 >= number2 && number3 >= number2 && number1 >= number3) {
-            System.out.println(number1 + " " + number3 + " " + number2);
-        } else if (number2 >= number1 && number2 >= number3 && number1 >= number3) {
-            System.out.println(number2 + " " + number1 + " " + number3);
-        } else if (number2 >= number1 && number2 >= number3 && number3 >= number1) {
-            System.out.println(number2 + " " + number3 + " " + number1);
-        } else if (number3 >= number1 && number3 >= number2 && number1 >= number2) {
-            System.out.println(number3 + " " + number1 + " " + number2);
-        } else if (number3 >= number1 && number3 >= number2 && number2 >= number1) {
-            System.out.println(number3 + " " + number2 + " " + number1);
+        int[] mas = new int[3];
+        for (int i = 0; i < 3; i++) {
+            mas[i] = Integer.parseInt(bufferedReader.readLine());
+        }
+        if (mas[0] >= mas[1] && mas[0] >= mas[2] && mas[1] > mas[2]) {
+            System.out.println(mas[0] + " " + mas[1] + " " + mas[2]);
+        } else if (mas[0] >= mas[1] && mas[2] >= mas[1] && mas[0] >= mas[2]) {
+            System.out.println(mas[0] + " " + mas[2] + " " + mas[1]);
+        } else if (mas[1] >= mas[0] && mas[1] >= mas[2] && mas[0] >= mas[2]) {
+            System.out.println(mas[1] + " " + mas[0] + " " + mas[2]);
+        } else if (mas[1] >= mas[0] && mas[1] >= mas[2] && mas[2] >= mas[0]) {
+            System.out.println(mas[1] + " " + mas[2] + " " + mas[0]);
+        } else if (mas[2] >= mas[0] && mas[2] >= mas[1] && mas[0] >= mas[1]) {
+            System.out.println(mas[2] + " " + mas[0] + " " + mas[1]);
+        } else if (mas[2] >= mas[0] && mas[2] >= mas[1] && mas[1] >= mas[0]) {
+            System.out.println(mas[2] + " " + mas[1] + " " + mas[0]);
         }
     }
 }
