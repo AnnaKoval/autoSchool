@@ -2,7 +2,7 @@ package referenceTypes;
 
 public class Exercise1 {
     public static void main(String[] args) {
-        String str = ".a gf .g";
+        String str = "j.a gf .gj";
         findElements(str);
         writeStrWithDot(str);
         countSpaces(str);
@@ -16,9 +16,11 @@ public class Exercise1 {
         if (result.length % 2 == 0 && result.length != 1) {
             System.out.println("No average number");
             System.out.println("Last element " + result[result.length - 1]);
-        } else {
+        } else if (result.length != 1) {
             int average = result.length / 2;
             System.out.println("Average number = " + result[average]);
+            System.out.println("Last element " + result[result.length - 1]);
+        } else {
             System.out.println("First element = last element");
         }
     }
@@ -30,8 +32,13 @@ public class Exercise1 {
 
     public static void countSpaces(String str) {
         int count = -1;
+        char[] result = str.toCharArray();
+
         for (String part : str.split(" ")) {
-            System.out.println(part);
+            count++;
+        }
+
+        if (result[str.length() - 1] == ' ') {
             count++;
         }
         System.out.println("Quantity of spaces = " + count);
