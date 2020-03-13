@@ -5,13 +5,12 @@ import java.util.Scanner;
 
 public class Exercise8 {
     public static void main(String[] args) {
-        ArrayList<String> list = new ArrayList<String>();
+        ArrayList<String> list = new ArrayList<>();
         Scanner in = new Scanner(System.in);
-        list.add(in.nextLine());
-        list.add(in.nextLine());
-        list.add(in.nextLine());
-        list.add(in.nextLine());
-        list.add(in.nextLine());
+
+        for (int i = 0; i < 5; i++) {
+            list.add(in.nextLine());
+        }
         int maxSize = 0;
         for (String text : list) {
             if (maxSize < text.length()) {

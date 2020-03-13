@@ -11,12 +11,12 @@ public class Exercise16 {
         map.put("Vivo", "Sergey");
         map.put("Third", "Ramu");
         map.put("Turic", "Mama");
-        map.put("Vivo", "Sergey");//why Sergey  is displayed?
+        map.put("Vivo1", "Sergey");//why Sergey  is displayed?
         map.put("Bob", "Ramu");
         map.put("Ivanov", "Mama");
-        map.put("Huty", "Sergey");
-        map.put("Huty", "Ramu");
-        map.put("Huty", "Mama");
+        map.put("Huty1", "Sergey");
+        map.put("Huty2", "Ramu");
+        map.put("Huty3", "Mama");
 
         findAndRemoveDuplicates(map);
         for (Map.Entry<String, String> item : map.entrySet()) {

@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class Exercise6 {
     public static void main(String[] args) {
-        HashMap<String, Object> map = new HashMap<String, Object>();
+        HashMap<String, Object> map = new HashMap<>();
         map.put("watermelon", "berry");
         map.put("banana", 1);
         map.put("cherry", -2);

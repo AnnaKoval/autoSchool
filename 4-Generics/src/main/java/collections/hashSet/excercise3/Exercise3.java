@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class Exercise3 {
     public static void main(String[] args) {
-        HashMap<String, Cat> map = new HashMap<String, Cat>();
+        HashMap<String, Cat> map = new HashMap<>();
         Cat cat1 = new Cat("Tuz");
         Cat cat2 = new Cat("Vasya");
         Cat cat3 = new Cat("Pushok");
