@@ -33,7 +33,7 @@ public class Square extends Figure {
 
     @Override
     public double getArea() {
-        double side = Math.sqrt((this.x2 - super.getX()) * (this.x2 - super.getX()) + (this.y2 - super.getY()) * (this.y2 - super.getY()));
+        double side = Math.sqrt(Math.pow((this.x2 - super.getX()),2) + Math.pow((this.y2 - super.getY()), 2));
         return side * side;
     }
 
