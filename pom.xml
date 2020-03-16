@@ -15,6 +15,7 @@
         <module>4-Generics</module>
         <module>8-ContinuousIntegration</module>
         <module>11-Selenium</module>
+        <module>11-SeleniumWebDriver</module>
     </modules>
 
     <build>
