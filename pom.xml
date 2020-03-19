@@ -16,6 +16,8 @@
         <module>8-ContinuousIntegration</module>
         <module>11-Selenium</module>
         <module>11-SeleniumWebDriver</module>
+        <module>nix.com</module>
+        <module>13-RestAPI</module>
     </modules>
 
     <build>
