@@ -1,44 +1,66 @@
-import io.github.bonigarcia.wdm.WebDriverManager;
-import io.qameta.atlas.core.Atlas;
-import io.qameta.atlas.webdriver.WebDriverConfiguration;
-import io.qameta.atlas.webdriver.WebPage;
-import org.junit.*;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import pages.amazon.AmazonMainPage;
-import io.qameta.atlas.webdriver.extension.PageExtension;
-import io.qameta.atlas.webdriver.AtlasWebElement;
+import blocks.OrderedProducts;
+import blocks.Rezult;
+import io.qameta.atlas.webdriver.ElementsCollection;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import steps.*;
 
+import static org.hamcrest.Matchers.*;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.MatcherAssert.assertThat;
+
+// не успела добавить параметризацию
 public class BaseTest {
 
-    private WebDriver driver;
-    private Atlas atlas;
+    private WebDriverSteps webDriverSteps;
+    private AmazonMainPageSteps amazonMainPageSteps;
+    private SearchPageSteps searchPageSteps;
     private String strForAmazonPage = "puzzle";
-    private AmazonMainPage amazonMainPage;
+    String url = "https://www.amazon.com";
+    ProductPageSteps productPageSteps;
+    CardPageSteps cardPageSteps;
 
     @Before
     public void setUp() {
-        WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
-        atlas = new Atlas(new WebDriverConfiguration(driver));
+        System.setProperty("webdriver.chrome.driver", "tools\\chromedriver.exe");
+        webDriverSteps = new WebDriverSteps();
+        amazonMainPageSteps = new AmazonMainPageSteps();
+        searchPageSteps = new SearchPageSteps();
+        productPageSteps = new ProductPageSteps();
     }
 
     @Test
     public void testAmazon() {
-        onAmazonMainPage().open("https://www.amazon.com");
-        onAmazonMainPage().category().click();
+        SearchPageSteps searchPageSteps = amazonMainPageSteps.selectCategory(url);
+        searchPageSteps.searchStr(strForAmazonPage);
+        assertThat(searchPageSteps.onSearchPage().title().getText(), containsString(strForAmazonPage));
+
+        ElementsCollection<Rezult> elements = searchPageSteps.onSearchPage().rezults();
+        java.util.Iterator<Rezult> i = elements.iterator();
+        while (i.hasNext()) {
+            Rezult element = i.next();
+            if (element.isDisplayed()) {
+                assertThat(element.rezultName().getText(), containsString(strForAmazonPage));
+            }
+        }
+        String firstElementName = searchPageSteps.onSearchPage().firstElementName().getText();
+        String firstElementPrice = searchPageSteps.onSearchPage().firstElementPrice().getText();
+
+        productPageSteps = searchPageSteps.selectProduct();
+        productPageSteps.onProductPage().addToCardButton();
+        cardPageSteps = productPageSteps.goToCard();
+
+        ElementsCollection<OrderedProducts> orderedProducts = cardPageSteps.onCardPage().listOfOrgeredProducts();
+
+        assertThat(orderedProducts.size(), equalTo(1));
+        assertThat(orderedProducts.get(0).productName().getText(), equalTo(firstElementName));
+        assertThat(cardPageSteps.onCardPage().firstProductQuantity().getText(), equalTo("1"));
+        assertThat(cardPageSteps.onCardPage().productPriceSubtotal().getText(), equalTo(firstElementPrice));
     }
 
     @After
     public void stopDriver() {
-        this.driver.quit();
-    }
-
-    private AmazonMainPage onAmazonMainPage() {
-        return onPage(AmazonMainPage.class);
-    }
-
-    private <T extends WebPage> T onPage(Class<T> page) {
-        return atlas.create(driver, page);
+        webDriverSteps.driver.quit();
     }
 }
