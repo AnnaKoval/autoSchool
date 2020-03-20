@@ -1,13 +1,10 @@
 package testRest;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.given;
 
-@RunWith(Parameterized.class)
 public class TestAssured extends BaseTest {
 
     @DataProvider(name = "verifyAccessRequest")
