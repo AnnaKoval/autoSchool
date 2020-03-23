@@ -1,24 +1,22 @@
 package steps;
 
 import io.qameta.allure.Step;
+import org.openqa.selenium.WebDriver;
 import pages.SearchPage;
 
 public class SearchPageSteps extends WebDriverSteps {
+
+    public SearchPageSteps(WebDriver driver) {
+        super(driver);
+    }
 
     public SearchPage onSearchPage() {
         return onPage(SearchPage.class);
     }
 
     @Step
-    public SearchPageSteps searchStr(String str) {
-        this.onSearchPage().header().searchInput().sendKeys(str);
-        this.onSearchPage().header().searchInput().submit();
-        return this;
-    }
-
-    @Step
-    public ProductPageSteps selectProduct() {
-        this.onSearchPage().firstProduct().click();
-        return new ProductPageSteps();
+    public void searchStr(String str) {
+        onSearchPage().header().searchInput().sendKeys(str);
+        onSearchPage().header().searchInput().submit();
     }
 }

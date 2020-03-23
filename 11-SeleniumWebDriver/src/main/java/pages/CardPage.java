@@ -8,12 +8,12 @@ import io.qameta.atlas.webdriver.extension.FindBy;
 
 public interface CardPage extends WebPage {
 
-    @FindBy("//*[@id=\"activeCartViewForm\"]/div[2]")
-    ElementsCollection<OrderedProducts> listOfOrgeredProducts();
+    @FindBy("//*[@id='activeCartViewForm']/div[2]")
+    ElementsCollection<OrderedProducts> listOfOrderedProducts();
 
-    @FindBy("//span[@id='sc-subtotal-amount-activecart']/span[@class='a-size-medium a-color-price sc-price sc-white-space-nowrap sc-price-sign']")
+    @FindBy("//span[@id='sc-subtotal-amount-activecart']/span[contains(@class, 'a-size-medium')]")
     AtlasWebElement productPriceSubtotal();
 
-    @FindBy("//*[@id=\"a-autoid-0-announce\"]/span[@class='a-dropdown-prompt']")
+    @FindBy("//*[@id='a-autoid-0-announce']/span[@class='a-dropdown-prompt']")
     AtlasWebElement firstProductQuantity();
 }

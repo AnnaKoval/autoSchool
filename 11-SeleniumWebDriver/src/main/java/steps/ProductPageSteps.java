@@ -1,22 +1,19 @@
 package steps;
 
+import org.openqa.selenium.WebDriver;
 import pages.ProductPage;
 
 public class ProductPageSteps extends WebDriverSteps {
+
+    public ProductPageSteps(WebDriver driver) {
+        super(driver);
+    }
 
     public ProductPage onProductPage() {
         return onPage(ProductPage.class);
     }
 
-    public ProductPageSteps addToCard() {
-        this.onProductPage().addToCardButton().click();
-//        onProductPage().productName()
-//                .should("Product is not found", WebElement::isDisplayed);--добавить вейтеры везде
-        return this;
-    }
-
-    public CardPageSteps goToCard() {
-        this.onProductPage().header().cardButton().click();
-        return new CardPageSteps();
+    public void goToCard() {
+        onProductPage().header().cardButton().click();
     }
 }

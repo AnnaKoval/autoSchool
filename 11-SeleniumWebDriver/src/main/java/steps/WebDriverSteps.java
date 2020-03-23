@@ -6,15 +6,13 @@ import io.qameta.atlas.webdriver.WebPage;
 
 import org.openqa.selenium.WebDriver;
 
-//????????????????????????????
 public class WebDriverSteps {
     public Atlas atlas;
     public WebDriver driver;
-    private WebPage page;
 
-    public WebDriverSteps() {
-        this.driver=driver;
-        this.atlas = new Atlas(new WebDriverConfiguration(this.driver));
+    public WebDriverSteps(WebDriver driver) {
+        this.driver = driver;
+        atlas = new Atlas(new WebDriverConfiguration(this.driver));
     }
 
     public <T extends WebPage> T onPage(Class<T> page) {
