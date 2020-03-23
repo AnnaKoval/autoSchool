@@ -1,44 +1,41 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
-import io.qameta.atlas.core.Atlas;
-import io.qameta.atlas.webdriver.WebDriverConfiguration;
-import io.qameta.atlas.webdriver.WebPage;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import pages.amazon.AmazonMainPage;
-import io.qameta.atlas.webdriver.extension.PageExtension;
-import io.qameta.atlas.webdriver.AtlasWebElement;
+import steps.*;
+
+import java.util.concurrent.TimeUnit;
 
 public class BaseTest {
 
-    private WebDriver driver;
-    private Atlas atlas;
-    private String strForAmazonPage = "puzzle";
-    private AmazonMainPage amazonMainPage;
+    protected WebDriverSteps webDriverSteps;
+    protected AmazonMainPageSteps amazonMainPageSteps;
+    protected SearchPageSteps searchPageSteps;
+    protected String strForAmazonPage = "puzzle";
+    protected String url = "https://www.amazon.com";
+    protected ProductPageSteps productPageSteps;
+    protected CardPageSteps cardPageSteps;
+    protected String category = "Baby";
+    protected WebDriver driver;
 
     @Before
     public void setUp() {
+        //System.setProperty("webdriver.chrome.driver", "tools\\chromedriver.exe");
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
-        atlas = new Atlas(new WebDriverConfiguration(driver));
-    }
-
-    @Test
-    public void testAmazon() {
-        onAmazonMainPage().open("https://www.amazon.com");
-        onAmazonMainPage().category().click();
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.get(url);
+        webDriverSteps = new WebDriverSteps(driver);
+        amazonMainPageSteps = new AmazonMainPageSteps(driver);
+        searchPageSteps = new SearchPageSteps(driver);
+        productPageSteps = new ProductPageSteps(driver);
+        cardPageSteps = new CardPageSteps(driver);
     }
 
     @After
     public void stopDriver() {
-        this.driver.quit();
-    }
-
-    private AmazonMainPage onAmazonMainPage() {
-        return onPage(AmazonMainPage.class);
-    }
-
-    private <T extends WebPage> T onPage(Class<T> page) {
-        return atlas.create(driver, page);
+        driver.quit();
     }
 }
