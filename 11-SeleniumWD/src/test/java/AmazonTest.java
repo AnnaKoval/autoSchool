@@ -19,13 +19,13 @@ public class AmazonTest extends BaseTest {
         assertThat(searchPageSteps.onSearchPage().title().getText(), containsString(strForSerch));
 
         ElementsCollection<Result> elements = searchPageSteps.onSearchPage().rezults();
-        java.util.Iterator<Result> i = elements.iterator();
-        while (i.hasNext()) {
-            Result element = i.next();
+
+        for (Result element:  elements) {
             if (element.isDisplayed()) {
                 assertThat(element.resultName().getText(), containsString(strForAmazonPage));
             }
         }
+
         String firstElementName = elements.get(0).resultName().getText();
         String firstElementPrice = elements.get(0).resultPrice().getText();
 
