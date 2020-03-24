@@ -5,9 +5,9 @@ import io.qameta.atlas.webdriver.extension.FindBy;
 
 public interface Header extends AtlasWebElement {
 
-    @FindBy(".//*[@id='navbar']//input[@id='twotabsearchtextbox']")
+    @FindBy(".//input[@id='twotabsearchtextbox']")
     AtlasWebElement searchInput();
 
-    @FindBy(".//*[@id='navbar']//span[@id='nav-cart-count']")
+    @FindBy(".//span[@id='nav-cart-count']")
     AtlasWebElement cardButton();
 }

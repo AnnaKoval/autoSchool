@@ -9,6 +9,6 @@ import layout.WithHeader;
 
 public interface SearchPage extends WebPage, WithHeader {
 
-    @FindBy("//div[@data-index and contains(@class, 's-result-item')]")
-    ElementsCollection<Result> rezults();
+    @FindBy("//div[@data-index]")
+    ElementsCollection<Result> results();
 }

@@ -1,7 +1,11 @@
 package steps;
 
+import io.qameta.allure.Step;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import pages.ProductPage;
+
+import java.util.concurrent.TimeUnit;
 
 public class ProductPageSteps extends WebDriverSteps {
 
@@ -13,7 +17,36 @@ public class ProductPageSteps extends WebDriverSteps {
         return onPage(ProductPage.class);
     }
 
-    public void goToCard() {
+    @Step
+    public CardPageSteps goToCard() {
         onProductPage().header().cardButton().click();
+        return new CardPageSteps(this.driver);
+    }
+
+    @Step
+    public ProductPageSteps selectSize() {
+        try {
+            if (onProductPage().selectButton().isDisplayed()) {
+                onProductPage().selectButton().click();
+                onProductPage().sizeButton().click();
+                driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+            }
+        } catch (NoSuchElementException ex) {
+            System.out.println("Catch NoSuchElementException");
+        }
+        return this;
+    }
+
+    @Step
+    public ProductPageSteps addToCard() {
+        try {
+            if (onProductPage().addToCardButton().isDisplayed())
+                onProductPage().addToCardButton().click();
+        } catch (NoSuchElementException ex) {
+            System.out.println("Catch NoSuchElementException");
+            onProductPage().buyingOptionsButton().click();
+            onProductPage().addToCardOptionButton().click();
+        }
+        return this;
     }
 }
