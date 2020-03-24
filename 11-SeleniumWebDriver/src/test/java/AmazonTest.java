@@ -1,6 +1,5 @@
 import blocks.OrderedProducts;
 import blocks.Result;
-import blocks.Select;
 import io.qameta.atlas.webdriver.ElementsCollection;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
