@@ -1,5 +1,6 @@
 import blocks.OrderedProducts;
 import blocks.Result;
+import blocks.Select;
 import io.qameta.atlas.webdriver.ElementsCollection;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -20,7 +21,9 @@ public class AmazonTest extends BaseTest {
 
     @Test(dataProvider = "strForSearchData")
     public void testAmazon(String strForSearch) {
-        SearchPageSteps searchPageSteps = amazonMainPageSteps.selectCategory(category).search(strForSearch);
+        amazonMainPageSteps.onAmazonMainPage().categories().selectByVisibleText(category);
+        SearchPageSteps searchPageSteps = new SearchPageSteps(driver);
+        searchPageSteps.search(strForSearch);
         ElementsCollection<Result> elements = searchPageSteps.onSearchPage().results();
 
         elements.forEach(element -> {
