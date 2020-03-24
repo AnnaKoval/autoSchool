@@ -3,9 +3,9 @@ import blocks.Result;
 import io.qameta.atlas.webdriver.ElementsCollection;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
+import steps.CardPageSteps;
+import steps.ProductPageSteps;
+import steps.SearchPageSteps;
 
 public class AmazonTest extends BaseTest {
 
@@ -20,7 +20,7 @@ public class AmazonTest extends BaseTest {
 
     @Test(dataProvider = "strForSearchData")
     public void testAmazon(String strForSearch) {
-        searchPageSteps = amazonMainPageSteps.selectCategory(category).search(strForSearch);
+        SearchPageSteps searchPageSteps = amazonMainPageSteps.selectCategory(category).search(strForSearch);
         ElementsCollection<Result> elements = searchPageSteps.onSearchPage().results();
 
         elements.forEach(element -> {
@@ -29,16 +29,14 @@ public class AmazonTest extends BaseTest {
             }
         });
 
-        String firstElementName = searchPageSteps.getFirstElementName(elements);
-        String firstElementPriceWhole = searchPageSteps.getFirstPriceWhole(elements);
-        String firstElementPriceFraction = searchPageSteps.getFirstElementPriceFraction(elements);
+        String elementName = searchPageSteps.getFirstElementName(elements);
+        String elementPriceWhole = searchPageSteps.getFirstPriceWhole(elements);
+        String elementPriceFraction = searchPageSteps.getFirstElementPriceFraction(elements);
 
-        productPageSteps = searchPageSteps.getProduct(elements);
-        cardPageSteps = productPageSteps.selectSize().addToCard().goToCard();
+        ProductPageSteps productPageSteps = searchPageSteps.getProduct(elements);
+        CardPageSteps cardPageSteps = productPageSteps.selectSize().addToCard().goToCard();
         ElementsCollection<OrderedProducts> orderedProducts = cardPageSteps.onCardPage().listOfOrderedProducts();
 
-        assertThat(cardPageSteps.getProductQuantity(), equalTo("1"));
-        assertThat(cardPageSteps.getProductPrice(), equalTo("$" + firstElementPriceWhole + "." + firstElementPriceFraction));
-        assertThat(orderedProducts.get(0).productName().getText(), equalTo(firstElementName));
+        cardPageSteps.verifyOneProductOrdered().verifyProductPrice(elementPriceWhole, elementPriceFraction).verifyElementName(elementName, orderedProducts);
     }
 }

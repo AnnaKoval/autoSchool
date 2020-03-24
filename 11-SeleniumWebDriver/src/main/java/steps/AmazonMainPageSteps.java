@@ -2,8 +2,8 @@ package steps;
 
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.Select;
 import pages.AmazonMainPage;
-
 
 public class AmazonMainPageSteps extends WebDriverSteps {
 
@@ -17,7 +17,8 @@ public class AmazonMainPageSteps extends WebDriverSteps {
 
     @Step
     public SearchPageSteps selectCategory(String category) {
-        onAmazonMainPage().selectItem(category);
+        Select select = new Select(onAmazonMainPage().categories());
+        select.selectByVisibleText(category);
         return new SearchPageSteps(driver);
     }
 }
