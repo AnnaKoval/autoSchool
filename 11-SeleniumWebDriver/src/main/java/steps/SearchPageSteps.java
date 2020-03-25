@@ -5,6 +5,7 @@ import io.qameta.allure.Step;
 import io.qameta.atlas.webdriver.ElementsCollection;
 import org.openqa.selenium.WebDriver;
 import pages.SearchPage;
+
 import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.CoreMatchers.containsString;
@@ -26,8 +27,12 @@ public class SearchPageSteps extends WebDriverSteps {
         onSearchPage().header().searchInput().submit();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
-        assertThat(onSearchPage().title().getText(), containsString(str));
         return new SearchPageSteps(driver);
+    }
+
+    @Step
+    public void verifyTextOnTitle(String str) {
+        assertThat(onSearchPage().title().getText(), containsString(str));
     }
 
     @Step
@@ -37,11 +42,11 @@ public class SearchPageSteps extends WebDriverSteps {
     }
 
     @Step
-    public String getFirstElementName(ElementsCollection<Result> elements) {
+    public String getNameOfResultElement(ElementsCollection<Result> elements) {
         String firstElementName = "";
 
         for (Result element : elements) {
-            if (element.resultPriceWhole().isDisplayed()) {
+            if (element.resultPrice().isDisplayed()) {
                 firstElementName = element.resultName().getText();
                 break;
             }
@@ -50,38 +55,35 @@ public class SearchPageSteps extends WebDriverSteps {
     }
 
     @Step
-    public String getFirstPriceWhole(ElementsCollection<Result> elements) {
-        String firstElementPriceWhole = "";
+    public String getPriceOfResultElement(ElementsCollection<Result> elements) {
+        String elementPrice = "";
 
         for (Result element : elements) {
-            if (element.resultPriceWhole().isDisplayed()) {
-                firstElementPriceWhole = element.resultPriceWhole().getText();
+            if (element.resultPrice().isDisplayed()) {
+                elementPrice = element.resultPrice().getText();
                 break;
             }
         }
-        return firstElementPriceWhole;
+        return elementPrice;
     }
 
     @Step
-    public String getFirstElementPriceFraction(ElementsCollection<Result> elements) {
-        String firstElementPriceFraction = "";
-
-        for (Result element : elements) {
-            if (element.resultPriceWhole().isDisplayed()) {
-                firstElementPriceFraction = element.resultPriceFraction().getText();
-                break;
-            }
-        }
-        return firstElementPriceFraction;
+    public ProductPageSteps getProduct(Result element) {
+        return viewProduct(element);
     }
 
     @Step
-    public ProductPageSteps getProduct(ElementsCollection<Result> elements) {
-        for (Result element : elements) {
-            if (element.resultPriceWhole().isDisplayed()) {
-                return this.viewProduct(element);
+    public ElementsCollection<Result> getResultsOfSearch() {
+        ElementsCollection<Result> elements = onSearchPage().results();
+        return elements;
+    }
+
+    @Step
+    public void verifyIsElementContainsStrForSearch(String strForSearch, ElementsCollection<Result> elements) {
+        elements.forEach(element -> {
+            if (element.isDisplayed()) {
+                //assertThat(element.resultName().getText().toLowerCase(), containsString(strForSearch.toLowerCase())); -- будет падать!!!
             }
-        }
-        return new ProductPageSteps(driver);
+        });
     }
 }

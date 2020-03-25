@@ -1,10 +1,8 @@
-import blocks.OrderedProducts;
 import blocks.Result;
 import io.qameta.atlas.webdriver.ElementsCollection;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import steps.CardPageSteps;
-import steps.ProductPageSteps;
 import steps.SearchPageSteps;
 
 public class AmazonTest extends BaseTest {
@@ -20,25 +18,23 @@ public class AmazonTest extends BaseTest {
 
     @Test(dataProvider = "strForSearchData")
     public void testAmazon(String strForSearch) {
-        amazonMainPageSteps.onAmazonMainPage().categories().selectByVisibleText(category);
+        amazonMainPageSteps.selectCategory(category);
         SearchPageSteps searchPageSteps = new SearchPageSteps(driver);
-        searchPageSteps.search(strForSearch);
-        ElementsCollection<Result> elements = searchPageSteps.onSearchPage().results();
+        searchPageSteps.search(strForSearch).verifyTextOnTitle(strForSearch);
 
-        elements.forEach(element -> {
-            if (element.isDisplayed()) {
-                //assertThat(element.resultName().getText().toLowerCase(), containsString(strForSearch.toLowerCase())); -- будет падать!!!
+        ElementsCollection<Result> elements = searchPageSteps.getResultsOfSearch();
+        searchPageSteps.verifyIsElementContainsStrForSearch(strForSearch, elements);
+        String elementName = searchPageSteps.getNameOfResultElement(elements);
+        String elementPrice = searchPageSteps.getPriceOfResultElement(elements);
+        CardPageSteps cardPageSteps = new CardPageSteps(driver);
+
+        for (int index = 0; index < elements.size(); index++) {
+            if (elements.get(index).resultPrice().isDisplayed()) {
+                cardPageSteps = searchPageSteps.getProduct(elements.get(index)).selectSize().addToCard().goToCard();
+                break;
             }
-        });
+        }
 
-        String elementName = searchPageSteps.getFirstElementName(elements);
-        String elementPriceWhole = searchPageSteps.getFirstPriceWhole(elements);
-        String elementPriceFraction = searchPageSteps.getFirstElementPriceFraction(elements);
-
-        ProductPageSteps productPageSteps = searchPageSteps.getProduct(elements);
-        CardPageSteps cardPageSteps = productPageSteps.selectSize().addToCard().goToCard();
-        ElementsCollection<OrderedProducts> orderedProducts = cardPageSteps.onCardPage().listOfOrderedProducts();
-
-        cardPageSteps.verifyOneProductOrdered().verifyProductPrice(elementPriceWhole, elementPriceFraction).verifyElementName(elementName, orderedProducts);
+        cardPageSteps.verifyOneProductOrdered().verifyProductPrice(elementPrice).verifyElementName(elementName);
     }
 }

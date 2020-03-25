@@ -20,7 +20,7 @@ public class ProductPageSteps extends WebDriverSteps {
     @Step
     public CardPageSteps goToCard() {
         onProductPage().header().cardButton().click();
-        return new CardPageSteps(this.driver);
+        return new CardPageSteps(driver);
     }
 
     @Step

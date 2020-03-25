@@ -10,9 +10,6 @@ public interface Result extends AtlasWebElement<Result> {
     @FindBy(".//h2/a[contains(@class, 'a-text-normal')]")
     AtlasWebElement resultLink();
 
-    @FindBy(".//span[contains(@class, 'a-price-whole')]")
-    AtlasWebElement resultPriceWhole();
-
-    @FindBy(".//span[contains(@class, 'a-price-fraction')]")
-    AtlasWebElement resultPriceFraction();
+    @FindBy(".//span[contains(@class, 'a-offscreen')]")
+    AtlasWebElement resultPrice();
 }
