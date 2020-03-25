@@ -2,9 +2,9 @@ package steps;
 
 import static matchers.IsDisplayedMatcher.isDisplayedMatcher;
 import static org.hamcrest.MatcherAssert.assertThat;
+
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import pages.AmazonMainPage;
 
 public class AmazonMainPageSteps extends WebDriverSteps {

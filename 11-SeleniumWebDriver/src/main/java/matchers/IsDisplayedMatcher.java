@@ -1,14 +1,13 @@
 package matchers;
 
-import blocks.Select;
-import io.qameta.atlas.webdriver.AtlasWebElement;
 import org.hamcrest.Description;
 import org.hamcrest.Factory;
 import org.hamcrest.TypeSafeMatcher;
-import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 
-public class IsDisplayedMatcher extends TypeSafeMatcher<Select> {
+import java.util.NoSuchElementException;
+
+public class IsDisplayedMatcher extends TypeSafeMatcher<WebElement> {
 
     public void describeTo(Description description) {
         description.appendText("a displayed web element");
@@ -20,10 +19,10 @@ public class IsDisplayedMatcher extends TypeSafeMatcher<Select> {
     }
 
     @Override
-    protected boolean matchesSafely(Select categories) {
+    protected boolean matchesSafely(WebElement categories) {
         try {
             return categories.isDisplayed();
-        } catch (WebDriverException e) {
+        } catch (NoSuchElementException e) {
             return false;
         }
     }
