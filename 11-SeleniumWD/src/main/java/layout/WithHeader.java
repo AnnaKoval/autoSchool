@@ -8,6 +8,6 @@ public interface WithHeader {
     @FindBy("//header[contains(@class,'nav-opt-sprite')]")
     Header header();
 
-    @FindBy("//title[contains(text(), 'Amazon.com')]")
+    @FindBy("//div[contains(@class, 'a-section')]/span[contains(@class,'a-color-state')]")
     AtlasWebElement title();
 }

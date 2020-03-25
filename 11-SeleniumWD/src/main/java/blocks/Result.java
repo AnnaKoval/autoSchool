@@ -4,12 +4,12 @@ import io.qameta.atlas.webdriver.AtlasWebElement;
 import io.qameta.atlas.webdriver.extension.FindBy;
 
 public interface Result extends AtlasWebElement<Result> {
-    @FindBy("//div[contains(@class,'a-section')]//span[contains(@class, 'a-size-base-plus')]")
+    @FindBy(".//a/span[contains(@class, 'a-size-base-plus')]")
     AtlasWebElement resultName();
 
-    @FindBy("//div[contains(@class,'a-section')]//span[contains(@class, 'a-price-whole')]")
-    AtlasWebElement resultPrice();
-
-    @FindBy("//div[contains(@class,'a-section')]//h2/a[contains(@class, 'a-text-normal')]")
+    @FindBy(".//h2/a[contains(@class, 'a-text-normal')]")
     AtlasWebElement resultLink();
+
+    @FindBy(".//span[contains(@class, 'a-offscreen')]")
+    AtlasWebElement resultPrice();
 }

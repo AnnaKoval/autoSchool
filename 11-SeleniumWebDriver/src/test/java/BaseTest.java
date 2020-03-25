@@ -7,7 +7,7 @@ import steps.*;
 
 import java.util.concurrent.TimeUnit;
 
-public class BaseTest {
+public class srcBaseTest {
 
     protected WebDriverSteps webDriverSteps;
     protected AmazonMainPageSteps amazonMainPageSteps;

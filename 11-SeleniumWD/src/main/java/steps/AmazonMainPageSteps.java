@@ -1,7 +1,10 @@
 package steps;
 
+import static matchers.IsDisplayedMatcher.isDisplayedMatcher;
+import static org.hamcrest.MatcherAssert.assertThat;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import pages.AmazonMainPage;
 
 public class AmazonMainPageSteps extends WebDriverSteps {
@@ -15,7 +18,14 @@ public class AmazonMainPageSteps extends WebDriverSteps {
     }
 
     @Step
+    public void isCategoriesDisplayed() {
+        WebElement categories=onAmazonMainPage().categories();
+        assertThat(categories, isDisplayedMatcher());
+    }
+
+    @Step
     public void selectCategory(String category) {
-        onAmazonMainPage().category(category).click();
+        isCategoriesDisplayed();
+        onAmazonMainPage().categories().selectByVisibleText(category);
     }
 }
