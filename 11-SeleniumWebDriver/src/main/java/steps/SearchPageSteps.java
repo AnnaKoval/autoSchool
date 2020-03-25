@@ -31,8 +31,9 @@ public class SearchPageSteps extends WebDriverSteps {
     }
 
     @Step
-    public void verifyTextOnTitle(String str) {
+    public SearchPageSteps shoulContainTextOnTitle(String str) {
         assertThat(onSearchPage().title().getText(), containsString(str));
+        return this;
     }
 
     @Step
@@ -68,22 +69,30 @@ public class SearchPageSteps extends WebDriverSteps {
     }
 
     @Step
-    public ProductPageSteps getProduct(Result element) {
-        return viewProduct(element);
+    public ProductPageSteps getResultWithPrice(ElementsCollection<Result> elements) {
+        for (int index = 0; index < elements.size(); index++) {
+            if (elements.get(index).resultPrice().isDisplayed()) {
+                return viewProduct(elements.get(index));
+            }
+        }
+        return null;
     }
 
     @Step
-    public ElementsCollection<Result> getResultsOfSearch() {
-        ElementsCollection<Result> elements = onSearchPage().results();
-        return elements;
-    }
+    public SearchPageSteps shouldContainsStrForSearch(String strForSearch) {
+        ElementsCollection<Result> elements = getResultsCollection();
 
-    @Step
-    public void verifyIsElementContainsStrForSearch(String strForSearch, ElementsCollection<Result> elements) {
         elements.forEach(element -> {
             if (element.isDisplayed()) {
                 //assertThat(element.resultName().getText().toLowerCase(), containsString(strForSearch.toLowerCase())); -- будет падать!!!
             }
         });
+
+        return this;
+    }
+
+    @Step
+    public ElementsCollection<Result> getResultsCollection() {
+        return onSearchPage().results();
     }
 }

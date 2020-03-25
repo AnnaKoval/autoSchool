@@ -26,5 +26,4 @@ public class IsDisplayedMatcher extends TypeSafeMatcher<WebElement> {
             return false;
         }
     }
-
 }

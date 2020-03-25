@@ -2,7 +2,6 @@ import blocks.Result;
 import io.qameta.atlas.webdriver.ElementsCollection;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import steps.CardPageSteps;
 import steps.SearchPageSteps;
 
 public class AmazonTest extends BaseTest {
@@ -18,23 +17,23 @@ public class AmazonTest extends BaseTest {
 
     @Test(dataProvider = "strForSearchData")
     public void testAmazon(String strForSearch) {
-        amazonMainPageSteps.selectCategory(category);
-        SearchPageSteps searchPageSteps = new SearchPageSteps(driver);
-        searchPageSteps.search(strForSearch).verifyTextOnTitle(strForSearch);
+        SearchPageSteps searchPageSteps = amazonMainPageSteps
+                .selectCategory(category)
+                .search(strForSearch)
+                .shoulContainTextOnTitle(strForSearch)
+                .shouldContainsStrForSearch(strForSearch);
 
-        ElementsCollection<Result> elements = searchPageSteps.getResultsOfSearch();
-        searchPageSteps.verifyIsElementContainsStrForSearch(strForSearch, elements);
+        ElementsCollection<Result> elements = searchPageSteps.getResultsCollection();
         String elementName = searchPageSteps.getNameOfResultElement(elements);
         String elementPrice = searchPageSteps.getPriceOfResultElement(elements);
-        CardPageSteps cardPageSteps = new CardPageSteps(driver);
 
-        for (int index = 0; index < elements.size(); index++) {
-            if (elements.get(index).resultPrice().isDisplayed()) {
-                cardPageSteps = searchPageSteps.getProduct(elements.get(index)).selectSize().addToCard().goToCard();
-                break;
-            }
-        }
-
-        cardPageSteps.verifyOneProductOrdered().verifyProductPrice(elementPrice).verifyElementName(elementName);
+        searchPageSteps
+                .getResultWithPrice(elements)
+                .selectSize()
+                .addToCard()
+                .goToCard()
+                .shouldContainProductPrice(elementPrice)
+                .shoulContainElementName(elementName)
+                .shouldContainOneProductOrdered();
     }
 }

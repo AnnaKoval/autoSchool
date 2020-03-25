@@ -4,6 +4,7 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import pages.CardPage;
 
+import static matchers.HasTextMatcher.hasTextMatcher;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
@@ -33,19 +34,19 @@ public class CardPageSteps extends WebDriverSteps {
     }
 
     @Step
-    public CardPageSteps verifyOneProductOrdered() {
-        assertThat(getProductQuantity(), equalTo("1"));
+    public CardPageSteps shouldContainOneProductOrdered() {
+        hasTextMatcher(onCardPage().firstProductQuantity().getText());
         return this;
     }
 
     @Step
-    public CardPageSteps verifyProductPrice(String elementPrice) {
+    public CardPageSteps shouldContainProductPrice(String elementPrice) {
         assertThat(getProductPrice(), equalTo(elementPrice));
         return this;
     }
 
     @Step
-    public CardPageSteps verifyElementName(String elementName) {
+    public CardPageSteps shoulContainElementName(String elementName) {
         assertThat(getProductName(), equalTo(elementName));
         return this;
     }
