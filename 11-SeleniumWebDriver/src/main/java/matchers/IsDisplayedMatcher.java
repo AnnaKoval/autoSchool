@@ -4,7 +4,6 @@ import org.hamcrest.Description;
 import org.hamcrest.Factory;
 import org.hamcrest.TypeSafeMatcher;
 import org.openqa.selenium.WebElement;
-
 import java.util.NoSuchElementException;
 
 public class IsDisplayedMatcher extends TypeSafeMatcher<WebElement> {

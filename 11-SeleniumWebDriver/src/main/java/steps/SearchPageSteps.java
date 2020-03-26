@@ -37,45 +37,33 @@ public class SearchPageSteps extends WebDriverSteps {
     }
 
     @Step
-    public ProductPageSteps viewProduct(Result element) {
-        element.resultLink().click();
-        return new ProductPageSteps(driver);
+    public String getNameOfResultElement(int index) {
+        ElementsCollection<Result> elements = getResultsCollection();
+        return elements.get(index).resultName().getText();
     }
 
     @Step
-    public String getNameOfResultElement(ElementsCollection<Result> elements) {
-        String firstElementName = "";
-
-        for (Result element : elements) {
-            if (element.resultPrice().isDisplayed()) {
-                firstElementName = element.resultName().getText();
-                break;
-            }
-        }
-        return firstElementName;
+    public String getPriceOfResultElement(int index) {
+        ElementsCollection<Result> elements = getResultsCollection();
+        return elements.get(index).resultPrice().getText();
     }
 
     @Step
-    public String getPriceOfResultElement(ElementsCollection<Result> elements) {
-        String elementPrice = "";
-
-        for (Result element : elements) {
-            if (element.resultPrice().isDisplayed()) {
-                elementPrice = element.resultPrice().getText();
-                break;
-            }
-        }
-        return elementPrice;
-    }
-
-    @Step
-    public ProductPageSteps getResultWithPrice(ElementsCollection<Result> elements) {
+    public int getResultWithPrice() {
+        ElementsCollection<Result> elements = getResultsCollection();
         for (int index = 0; index < elements.size(); index++) {
             if (elements.get(index).resultPrice().isDisplayed()) {
-                return viewProduct(elements.get(index));
+                return index;
             }
         }
-        return null;
+        return -1;
+    }
+
+    @Step
+    public ProductPageSteps getElementProductPage(int index) {
+        ElementsCollection<Result> elements = getResultsCollection();
+        elements.get(index).resultLink().click();
+        return new ProductPageSteps(driver);
     }
 
     @Step

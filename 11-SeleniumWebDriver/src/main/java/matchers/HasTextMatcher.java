@@ -3,20 +3,35 @@ package matchers;
 import org.hamcrest.Description;
 import org.hamcrest.Factory;
 import org.hamcrest.TypeSafeMatcher;
+import org.openqa.selenium.WebElement;
 
-public class HasTextMatcher extends TypeSafeMatcher<String> {
+import java.util.NoSuchElementException;
 
-    public void describeTo(Description description) {
-        description.appendText("one product ordered");
-    }
+public class HasTextMatcher<String> extends TypeSafeMatcher<WebElement> {
+    private final String value;
 
-    @Factory
-    public static HasTextMatcher hasTextMatcher(String text) {
-        return new HasTextMatcher();
+    public HasTextMatcher(final String parameter) {
+        value = parameter;
     }
 
     @Override
-    protected boolean matchesSafely(String text) {
-        return text == "1";
+    public final void describeTo(final Description description) {
+        description
+                .appendText("Quantity should match: ")
+                .appendValue(value);
+    }
+
+    @Factory
+    public static HasTextMatcher hasTextMatcher(final String parameter) {
+        return new HasTextMatcher(parameter);
+    }
+
+    @Override
+    protected boolean matchesSafely(WebElement quantity) {
+        try {
+            return quantity.getText().equals(value);
+        } catch (NoSuchElementException e) {
+            return false;
+        }
     }
 }

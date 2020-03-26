@@ -23,12 +23,12 @@ public class AmazonTest extends BaseTest {
                 .shoulContainTextOnTitle(strForSearch)
                 .shouldContainsStrForSearch(strForSearch);
 
-        ElementsCollection<Result> elements = searchPageSteps.getResultsCollection();
-        String elementName = searchPageSteps.getNameOfResultElement(elements);
-        String elementPrice = searchPageSteps.getPriceOfResultElement(elements);
+        int index = searchPageSteps.getResultWithPrice();
+        String elementName = searchPageSteps.getNameOfResultElement(index);
+        String elementPrice = searchPageSteps.getPriceOfResultElement(index);
 
         searchPageSteps
-                .getResultWithPrice(elements)
+                .getElementProductPage(index)
                 .selectSize()
                 .addToCard()
                 .goToCard()

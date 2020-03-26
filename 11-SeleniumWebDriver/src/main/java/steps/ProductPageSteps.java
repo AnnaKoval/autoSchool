@@ -4,7 +4,6 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import pages.ProductPage;
-
 import java.util.concurrent.TimeUnit;
 
 public class ProductPageSteps extends WebDriverSteps {

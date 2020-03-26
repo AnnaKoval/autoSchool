@@ -3,10 +3,9 @@ package steps;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import pages.CardPage;
-
-import static matchers.HasTextMatcher.hasTextMatcher;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import matchers.HasTextMatcher.hasTextMatcher;
 
 public class CardPageSteps extends WebDriverSteps {
 
@@ -35,7 +34,7 @@ public class CardPageSteps extends WebDriverSteps {
 
     @Step
     public CardPageSteps shouldContainOneProductOrdered() {
-        hasTextMatcher(onCardPage().firstProductQuantity().getText());
+        assertThat(onCardPage().firstProductQuantity(), hasTextMatcher("1"));
         return this;
     }
 
