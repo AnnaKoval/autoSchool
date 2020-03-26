@@ -1,6 +1,6 @@
 package steps;
 
-import static matchers.IsDisplayedMatcher.isDisplayedMatcher;
+import static matchers.IsDisplayedMatcher.isDisplayed;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import io.qameta.allure.Step;
@@ -19,7 +19,7 @@ public class AmazonMainPageSteps extends WebDriverSteps {
 
     @Step
     public void isCategoriesDisplayed() {
-        assertThat(onAmazonMainPage().categories(), isDisplayedMatcher());
+        assertThat(onAmazonMainPage().categories(), isDisplayed());
     }
 
     @Step

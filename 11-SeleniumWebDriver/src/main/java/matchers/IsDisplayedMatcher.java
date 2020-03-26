@@ -14,7 +14,7 @@ public class IsDisplayedMatcher extends TypeSafeMatcher<WebElement> {
     }
 
     @Factory
-    public static IsDisplayedMatcher isDisplayedMatcher() {
+    public static IsDisplayedMatcher isDisplayed() {
         return new IsDisplayedMatcher();
     }
 
