@@ -8,9 +8,9 @@ import org.openqa.selenium.WebElement;
 import java.util.NoSuchElementException;
 
 public class HasTextMatcher<String> extends TypeSafeMatcher<WebElement> {
-    private final String value;
+    private String value;
 
-    public HasTextMatcher(final String parameter) {
+    public HasTextMatcher (String parameter) {
         value = parameter;
     }
 
@@ -22,7 +22,7 @@ public class HasTextMatcher<String> extends TypeSafeMatcher<WebElement> {
     }
 
     @Factory
-    public static HasTextMatcher hasTextMatcher(final String parameter) {
+    public HasTextMatcher hasTextMatcher(String parameter) {
         return new HasTextMatcher(parameter);
     }
 
