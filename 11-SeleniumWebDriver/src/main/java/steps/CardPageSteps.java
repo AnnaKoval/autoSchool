@@ -1,10 +1,14 @@
 package steps;
 
+import html.CardHtml;
+import html.ProductHtmlElement;
 import io.qameta.allure.Step;
+import matchers.HasTextMatcher;
 import org.openqa.selenium.WebDriver;
 import pages.CardPage;
 
-import static matchers.HasTextMatcher.hasTextMatcher;
+import static matchers.HasTextMatcher.hasText;
+import static matchers.IsDisplayedMatcher.isDisplayedMatcher;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
@@ -17,6 +21,10 @@ public class CardPageSteps extends WebDriverSteps {
 
     public CardPage onCardPage() {
         return onPage(CardPage.class);
+    }
+
+    public CardHtml onCardPageHtml() {
+        return onPage(CardHtml.class);
     }
 
     @Step
@@ -36,8 +44,9 @@ public class CardPageSteps extends WebDriverSteps {
 
     @Step
     public CardPageSteps shouldContainOneProductOrdered() {
-        assertThat(onCardPage().firstProductQuantity(), hasTextMatcher("1"));
-        assertThat(onCardPage().firstProductQuantity(), hasTextMatcher(containsString("1")));
+        assertThat(onCardPage().firstProductQuantity(), HasTextMatcher.hasText(containsString("1")));
+        onCardPage().firstProductQuantity().should(hasText("1"));
+        onCardPageHtml().orderedProducts().should(isDisplayedMatcher()).should(hasText("1");
         return this;
     }
 

@@ -8,13 +8,10 @@ import org.openqa.selenium.WebElement;
 
 import java.util.NoSuchElementException;
 
-public class HasTextMatcher extends TypeSafeMatcher<WebElement> {
-    private String value;
-    private Matcher<String> m;
+import static org.hamcrest.core.IsEqual.equalTo;
 
-    public HasTextMatcher(String parameter) {
-        value = parameter;
-    }
+public class HasTextMatcher extends TypeSafeMatcher<WebElement> {
+    private Matcher<String> m;
 
     public HasTextMatcher(Matcher<String> m) {
         this.m = m;
@@ -23,29 +20,21 @@ public class HasTextMatcher extends TypeSafeMatcher<WebElement> {
     @Override
     public final void describeTo(final Description description) {
         description
-                .appendText("Web element text should match: ")
-                .appendValue(value);
+                .appendText("Web element text does not match ");
     }
 
     @Factory
-    public static Matcher<WebElement> hasTextMatcher(String parameter) {
-        return new HasTextMatcher(parameter);
+    public static Matcher<WebElement> hasText(String parameter) {
+        return new HasTextMatcher(equalTo(parameter));
     }
 
     @Factory
-    public static Matcher<WebElement> hasTextMatcher(Matcher<String> m) {
+    public static Matcher<WebElement> hasText(Matcher<String> m) {
         return new HasTextMatcher(m);
     }
 
     @Override
     protected boolean matchesSafely(WebElement quantity) {
-        if (m != null) {
-            return m.matches(quantity.getText());
-        }
-        try {
-            return quantity.getText().equals(value);
-        } catch (NoSuchElementException e) {
-            return false;
-        }
+        return m.matches(quantity.getText());
     }
 }
