@@ -31,15 +31,13 @@ public class SearchPageSteps extends WebDriverSteps {
     public SearchPageSteps search(String str) {
         HtmlElement searchInput = onSearchPage().header().searchInput().should(isDisplayed());
         searchInput.sendKeys(str);
-        searchInput.click();
         searchInput.submit();
         return new SearchPageSteps(driver);
     }
 
     @Step
     public SearchPageSteps shouldContainTextOnTitle(String str) {
-        onSearchPage().title().should(isDisplayed());
-        assertThat(onSearchPage().title().getText(), containsString(str));
+        onSearchPage().title().should(isDisplayed()).should(hasText(containsString(str)));
         return this;
     }
 
