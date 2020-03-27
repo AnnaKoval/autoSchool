@@ -1,23 +1,23 @@
 package pages;
 
-import io.qameta.atlas.webdriver.AtlasWebElement;
+import html.HtmlElement;
 import io.qameta.atlas.webdriver.WebPage;
 import io.qameta.atlas.webdriver.extension.FindBy;
 import layout.WithHeader;
 
 public interface ProductPage extends WebPage, WithHeader {
     @FindBy("//*[@id='add-to-cart-button']")
-    AtlasWebElement addToCardButton();
+    HtmlElement addToCardButton();
 
     @FindBy("//*[@id='dropdown_selected_size_name']/span")
-    AtlasWebElement selectButton();
+    HtmlElement selectButton();
 
     @FindBy("//li[contains(@class,'dropdownAvailable')]/a")
-    AtlasWebElement sizeButton();
+    HtmlElement sizeButton();
 
     @FindBy("//*[@id='buybox-see-all-buying-choices-announce']/..")
-    AtlasWebElement buyingOptionsButton();
+    HtmlElement buyingOptionsButton();
 
     @FindBy("//input[contains(@name, 'submit.addToCart')]")
-    AtlasWebElement addToCardOptionButton();
+    HtmlElement addToCardOptionButton();
 }

@@ -6,8 +6,6 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.openqa.selenium.WebElement;
 
-import java.util.NoSuchElementException;
-
 import static org.hamcrest.core.IsEqual.equalTo;
 
 public class HasTextMatcher extends TypeSafeMatcher<WebElement> {

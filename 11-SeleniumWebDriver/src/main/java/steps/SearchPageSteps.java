@@ -7,10 +7,8 @@ import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import pages.SearchPage;
 
-import java.util.concurrent.TimeUnit;
-
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static matchers.HasTextMatcher.hasText;
+import static matchers.IsDisplayedMatcher.isDisplayed;
 
 public class SearchPageSteps extends WebDriverSteps {
 
@@ -24,27 +22,25 @@ public class SearchPageSteps extends WebDriverSteps {
 
     @Step
     public SearchPageSteps search(String str) {
-        onSearchPage().header().searchInput().sendKeys(str);
-        onSearchPage().header().searchInput().submit();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-
+        onSearchPage().header().searchInput().should(isDisplayed()).sendKeys(str);
+        onSearchPage().header().searchInput().should(isDisplayed()).submit();
         return new SearchPageSteps(driver);
     }
 
     @Step
     public SearchPageSteps shoulContainTextOnTitle(String str) {
-        assertThat(onSearchPage().title().getText(), containsString(str));
+        onSearchPage().title().should(isDisplayed()).should(hasText(str));
         return this;
     }
 
     @Step
     public String getNameOfResultElement(int index) {
-        return getResultsCollection().get(index).resultName().getText();
+        return getResultsCollection().get(index).resultName().should(isDisplayed()).getText();
     }
 
     @Step
     public String getPriceOfResultElement(int index) {
-        return getResultsCollection().get(index).resultPrice().getText();
+        return getResultsCollection().get(index).resultPrice().should(isDisplayed()).getText();
     }
 
     @Step
@@ -61,7 +57,7 @@ public class SearchPageSteps extends WebDriverSteps {
 
     @Step
     public ProductPageSteps getElementProductPage(int index) {
-        getResultsCollection().get(index).resultLink().click();
+        getResultsCollection().get(index).resultLink().should(isDisplayed()).click();
         return new ProductPageSteps(driver);
     }
 
@@ -70,11 +66,8 @@ public class SearchPageSteps extends WebDriverSteps {
         ElementsCollection<Result> elements = getResultsCollection();
 
         elements.forEach(element -> {
-            if (element.isDisplayed()) {
-                //assertThat(element.resultName().getText().toLowerCase(), containsString(strForSearch.toLowerCase())); -- будет падать!!!
-            }
+            element.resultName().should(isDisplayed()).should(hasText(strForSearch));
         });
-
         return this;
     }
 

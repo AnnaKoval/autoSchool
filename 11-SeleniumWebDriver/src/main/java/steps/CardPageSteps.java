@@ -1,15 +1,11 @@
 package steps;
 
 import io.qameta.allure.Step;
-import matchers.HasTextMatcher;
 import org.openqa.selenium.WebDriver;
 import pages.CardPage;
 
 import static matchers.HasTextMatcher.hasText;
 import static matchers.IsDisplayedMatcher.isDisplayed;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.equalTo;
 
 public class CardPageSteps extends WebDriverSteps {
 
@@ -22,37 +18,20 @@ public class CardPageSteps extends WebDriverSteps {
     }
 
     @Step
-    public String getProductQuantity() {
-        return onCardPage().firstProductQuantity().getText();
-    }
-
-    @Step
-    public String getProductPrice() {
-        return onCardPage().productPriceSubtotal().getText();
-    }
-
-    @Step
-    public String getProductName() {
-        return onCardPage().productName().getText();
-    }
-
-    @Step
     public CardPageSteps shouldContainOneProductOrdered() {
-        assertThat(onCardPage().firstProductQuantity(), HasTextMatcher.hasText(containsString("1")));
-        onCardPage().firstProductQuantity().should(hasText("1"));
         onCardPage().firstProductQuantity().should(isDisplayed()).should(hasText("1"));
         return this;
     }
 
     @Step
     public CardPageSteps shouldContainProductPrice(String elementPrice) {
-        assertThat(getProductPrice(), equalTo(elementPrice));
+        onCardPage().productPriceSubtotal().should(isDisplayed()).should(hasText(elementPrice));
         return this;
     }
 
     @Step
     public CardPageSteps shoulContainElementName(String elementName) {
-        assertThat(getProductName(), equalTo(elementName));
+        onCardPage().productName().should(isDisplayed()).should(hasText(elementName));
         return this;
     }
 }

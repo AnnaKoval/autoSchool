@@ -1,7 +1,6 @@
 package steps;
 
 import static matchers.IsDisplayedMatcher.isDisplayed;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
@@ -18,14 +17,8 @@ public class AmazonMainPageSteps extends WebDriverSteps {
     }
 
     @Step
-    public void isCategoriesDisplayed() {
-        assertThat(onAmazonMainPage().categories(), isDisplayed());
-    }
-
-    @Step
     public SearchPageSteps selectCategory(String category) {
-        isCategoriesDisplayed();
-        onAmazonMainPage().categories().selectByVisibleText(category);
+        onAmazonMainPage().categories().should(isDisplayed()).selectByVisibleText(category);
         return new SearchPageSteps(driver);
     }
 }

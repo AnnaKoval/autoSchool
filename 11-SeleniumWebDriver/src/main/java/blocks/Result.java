@@ -1,15 +1,15 @@
 package blocks;
 
-import io.qameta.atlas.webdriver.AtlasWebElement;
+import html.HtmlElement;
 import io.qameta.atlas.webdriver.extension.FindBy;
 
-public interface Result extends AtlasWebElement<Result> {
+public interface Result {
     @FindBy(".//a/span[contains(@class, 'a-size-base-plus')]")
-    AtlasWebElement resultName();
+    HtmlElement resultName();
 
     @FindBy(".//h2/a[contains(@class, 'a-text-normal')]")
-    AtlasWebElement resultLink();
+    HtmlElement resultLink();
 
     @FindBy(".//span[contains(@class, 'a-offscreen')]")
-    AtlasWebElement resultPrice();
+    HtmlElement resultPrice();
 }

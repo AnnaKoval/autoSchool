@@ -1,13 +1,12 @@
 package blocks;
 
-import io.qameta.atlas.webdriver.AtlasWebElement;
+import html.HtmlElement;
 import io.qameta.atlas.webdriver.extension.FindBy;
 
-public interface Header extends AtlasWebElement {
-
+public interface Header {
     @FindBy(".//input[@id='twotabsearchtextbox']")
-    AtlasWebElement searchInput();
+    HtmlElement searchInput();
 
     @FindBy(".//span[@id='nav-cart-count']")
-    AtlasWebElement cardButton();
+    HtmlElement cardButton();
 }

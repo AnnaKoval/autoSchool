@@ -7,7 +7,6 @@ import io.qameta.atlas.webdriver.extension.FindBy;
 import layout.WithHeader;
 
 public interface SearchPage extends WebPage, WithHeader {
-
     @FindBy("//div[@data-index]")
     ElementsCollection<Result> results();
 }

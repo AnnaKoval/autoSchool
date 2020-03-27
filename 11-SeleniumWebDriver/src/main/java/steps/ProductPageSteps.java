@@ -4,7 +4,8 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import pages.ProductPage;
-import java.util.concurrent.TimeUnit;
+
+import static matchers.IsDisplayedMatcher.isDisplayed;
 
 public class ProductPageSteps extends WebDriverSteps {
 
@@ -18,7 +19,7 @@ public class ProductPageSteps extends WebDriverSteps {
 
     @Step
     public CardPageSteps goToCard() {
-        onProductPage().header().cardButton().click();
+        onProductPage().header().cardButton().should(isDisplayed()).click();
         return new CardPageSteps(driver);
     }
 
@@ -27,8 +28,7 @@ public class ProductPageSteps extends WebDriverSteps {
         try {
             if (onProductPage().selectButton().isDisplayed()) {
                 onProductPage().selectButton().click();
-                onProductPage().sizeButton().click();
-                driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+                onProductPage().sizeButton().should(isDisplayed()).click();
             }
         } catch (NoSuchElementException ex) {
             System.out.println("Catch NoSuchElementException");
@@ -43,8 +43,8 @@ public class ProductPageSteps extends WebDriverSteps {
                 onProductPage().addToCardButton().click();
         } catch (NoSuchElementException ex) {
             System.out.println("Catch NoSuchElementException");
-            onProductPage().buyingOptionsButton().click();
-            onProductPage().addToCardOptionButton().click();
+            onProductPage().buyingOptionsButton().should(isDisplayed()).click();
+            onProductPage().addToCardOptionButton().should(isDisplayed()).click();
         }
         return this;
     }

@@ -1,7 +1,7 @@
 package layout;
 
 import blocks.Header;
-import io.qameta.atlas.webdriver.AtlasWebElement;
+import html.HtmlElement;
 import io.qameta.atlas.webdriver.extension.FindBy;
 
 public interface WithHeader {
@@ -9,5 +9,5 @@ public interface WithHeader {
     Header header();
 
     @FindBy("//div[contains(@class, 'a-section')]/span[contains(@class,'a-color-state')]")
-    AtlasWebElement title();
+    HtmlElement title();
 }
