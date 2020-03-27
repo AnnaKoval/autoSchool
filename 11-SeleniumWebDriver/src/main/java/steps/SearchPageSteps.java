@@ -8,9 +8,12 @@ import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import pages.SearchPage;
 
+import java.util.concurrent.TimeUnit;
+
 import static matchers.HasTextMatcher.hasText;
 import static matchers.IsDisplayedMatcher.isDisplayed;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 
@@ -35,7 +38,8 @@ public class SearchPageSteps extends WebDriverSteps {
 
     @Step
     public SearchPageSteps shouldContainTextOnTitle(String str) {
-        onSearchPage().title().should(isDisplayed()).should(hasText(str));
+        onSearchPage().title().should(isDisplayed());
+        assertThat(onSearchPage().title().getText(), containsString(str));
         return this;
     }
 
@@ -72,7 +76,8 @@ public class SearchPageSteps extends WebDriverSteps {
         ElementsCollection<Result> elements = getResultsCollection();
 
         elements.forEach(element -> {
-            element.resultName().should(isDisplayed()).should(hasText(strForSearch));
+            element.resultName().should(isDisplayed());
+            assertThat(element.resultName().getText().toLowerCase(), containsString(strForSearch.toLowerCase()));
         });
         return this;
     }

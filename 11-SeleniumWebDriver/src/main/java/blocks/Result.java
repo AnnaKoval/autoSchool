@@ -1,8 +1,9 @@
 package blocks;
 
+import io.qameta.atlas.webdriver.AtlasWebElement;
 import io.qameta.atlas.webdriver.extension.FindBy;
 
-public interface Result {
+public interface Result extends AtlasWebElement<Result> {
     @FindBy(".//a/span[contains(@class, 'a-size-base-plus')]")
     HtmlElement resultName();
 
