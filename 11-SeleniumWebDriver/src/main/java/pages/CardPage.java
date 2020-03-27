@@ -1,6 +1,6 @@
 package pages;
 
-import html.HtmlElement;
+import blocks.HtmlElement;
 import io.qameta.atlas.webdriver.WebPage;
 import io.qameta.atlas.webdriver.extension.FindBy;
 

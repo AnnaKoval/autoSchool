@@ -1,6 +1,5 @@
 package blocks;
 
-import html.HtmlElement;
 import io.qameta.atlas.webdriver.extension.FindBy;
 
 public interface Header {

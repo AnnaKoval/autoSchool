@@ -30,7 +30,7 @@ public class CardPageSteps extends WebDriverSteps {
     }
 
     @Step
-    public CardPageSteps shoulContainElementName(String elementName) {
+    public CardPageSteps shouldContainElementName(String elementName) {
         onCardPage().productName().should(isDisplayed()).should(hasText(elementName));
         return this;
     }

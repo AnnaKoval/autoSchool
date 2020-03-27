@@ -1,5 +1,6 @@
 package steps;
 
+import blocks.HtmlElement;
 import blocks.Result;
 import io.qameta.allure.Step;
 import io.qameta.atlas.webdriver.ElementsCollection;
@@ -9,6 +10,9 @@ import pages.SearchPage;
 
 import static matchers.HasTextMatcher.hasText;
 import static matchers.IsDisplayedMatcher.isDisplayed;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 
 public class SearchPageSteps extends WebDriverSteps {
 
@@ -22,13 +26,15 @@ public class SearchPageSteps extends WebDriverSteps {
 
     @Step
     public SearchPageSteps search(String str) {
-        onSearchPage().header().searchInput().should(isDisplayed()).sendKeys(str);
-        onSearchPage().header().searchInput().should(isDisplayed()).submit();
+        HtmlElement searchInput = onSearchPage().header().searchInput().should(isDisplayed());
+        searchInput.sendKeys(str);
+        searchInput.click();
+        searchInput.submit();
         return new SearchPageSteps(driver);
     }
 
     @Step
-    public SearchPageSteps shoulContainTextOnTitle(String str) {
+    public SearchPageSteps shouldContainTextOnTitle(String str) {
         onSearchPage().title().should(isDisplayed()).should(hasText(str));
         return this;
     }
@@ -73,6 +79,8 @@ public class SearchPageSteps extends WebDriverSteps {
 
     @Step
     public ElementsCollection<Result> getResultsCollection() {
-        return onSearchPage().results();
+        ElementsCollection<Result> results = onSearchPage().results();
+        assertThat(results, hasSize(greaterThan(0)));
+        return results;
     }
 }

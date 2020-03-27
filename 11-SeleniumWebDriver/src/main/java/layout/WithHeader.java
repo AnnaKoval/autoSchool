@@ -1,7 +1,7 @@
 package layout;
 
 import blocks.Header;
-import html.HtmlElement;
+import blocks.HtmlElement;
 import io.qameta.atlas.webdriver.extension.FindBy;
 
 public interface WithHeader {

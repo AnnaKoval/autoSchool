@@ -10,7 +10,13 @@ import java.util.NoSuchElementException;
 public class IsDisplayedMatcher extends TypeSafeMatcher<WebElement> {
 
     public void describeTo(Description description) {
-        description.appendText("a displayed web element");
+        description.appendText("Web element is displayed");
+    }
+
+    @Override
+    protected void describeMismatchSafely(WebElement item, Description mismatchDescription) {
+        mismatchDescription.appendText("Web element is not displayed");
+        super.describeMismatchSafely(item, mismatchDescription);
     }
 
     @Factory

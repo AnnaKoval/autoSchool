@@ -18,7 +18,8 @@ public class HasTextMatcher extends TypeSafeMatcher<WebElement> {
     @Override
     public final void describeTo(final Description description) {
         description
-                .appendText("Web element text does not match ");
+                .appendText("Web element text matches ")
+                .appendDescriptionOf(m);
     }
 
     @Factory
@@ -34,5 +35,12 @@ public class HasTextMatcher extends TypeSafeMatcher<WebElement> {
     @Override
     protected boolean matchesSafely(WebElement quantity) {
         return m.matches(quantity.getText());
+    }
+
+    @Override
+    protected void describeMismatchSafely(WebElement item, Description mismatchDescription) {
+        mismatchDescription.appendText("Web element text does not matches ")
+                .appendDescriptionOf(m);
+        super.describeMismatchSafely(item, mismatchDescription);
     }
 }

@@ -1,5 +1,3 @@
-import blocks.Result;
-import io.qameta.atlas.webdriver.ElementsCollection;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import steps.SearchPageSteps;
@@ -20,7 +18,7 @@ public class AmazonTest extends BaseTest {
         SearchPageSteps searchPageSteps = amazonMainPageSteps
                 .selectCategory(category)
                 .search(strForSearch)
-                .shoulContainTextOnTitle(strForSearch)
+                .shouldContainTextOnTitle(strForSearch)
                 .shouldContainsStrForSearch(strForSearch);
 
         int index = searchPageSteps.getResultWithPrice();
@@ -33,7 +31,7 @@ public class AmazonTest extends BaseTest {
                 .addToCard()
                 .goToCard()
                 .shouldContainProductPrice(elementPrice)
-                .shoulContainElementName(elementName)
+                .shouldContainElementName(elementName)
                 .shouldContainOneProductOrdered();
     }
 }

@@ -18,7 +18,7 @@ public class AmazonMainPageSteps extends WebDriverSteps {
 
     @Step
     public SearchPageSteps selectCategory(String category) {
-        onAmazonMainPage().categories().should(isDisplayed()).selectByVisibleText(category);
+        onAmazonMainPage().categories().selectByVisibleText(category);
         return new SearchPageSteps(driver);
     }
 }
