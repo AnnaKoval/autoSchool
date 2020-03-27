@@ -73,7 +73,7 @@ public class SearchPageSteps extends WebDriverSteps {
         elements.forEach(element -> {
             element.resultName()
                     .should(isDisplayed()).
-                    should(element.resultName().getText().toLowerCase(), containsString(strForSearch.toLowerCase()));
+                    should(element.resultName().getText().toLowerCase(), hasText(containsString(strForSearch.toLowerCase())));
         });
         return this;
     }
