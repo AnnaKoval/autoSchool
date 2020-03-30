@@ -5,6 +5,9 @@ import io.qameta.atlas.webdriver.AtlasWebElement;
 import io.qameta.atlas.webdriver.extension.FindBy;
 
 public interface Popup extends AtlasWebElement<Popup> {
+    @FindBy(".//*[@id='layer_cart_product_title']")
+    HtmlElement name();
+
     @FindBy(".//*[@id='layer_cart_product_attributes']")
     HtmlElement size();
 

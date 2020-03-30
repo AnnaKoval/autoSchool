@@ -9,5 +9,5 @@ public interface Header extends AtlasWebElement<Header> {
     HtmlElement searchInput();
 
     @FindBy(".//a[contains(@title, 'shopping cart')]")
-    HtmlElement shoppingCart();
+    HtmlElement shoppingCard();
 }
