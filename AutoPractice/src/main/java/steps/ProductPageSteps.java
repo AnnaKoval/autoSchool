@@ -11,8 +11,6 @@ import java.util.regex.Pattern;
 import static matchers.HasAttributeMatcher.hasAttribute;
 import static matchers.HasTextMatcher.hasText;
 import static matchers.IsDisplayedMatcher.isDisplayed;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.IsEqual.equalTo;
 
 public class ProductPageSteps extends WebDriverSteps {
 
@@ -58,7 +56,7 @@ public class ProductPageSteps extends WebDriverSteps {
 
     @Step
     public ProductPageSteps shouldContainProductQuantity(String quantity, String attribute) {
-        assertThat(getQuantity(attribute), equalTo(quantity));
+        onProductPage().popup().quantity().should(isDisplayed()).should(hasAttribute(attribute, quantity));
         return this;
     }
 
@@ -111,8 +109,7 @@ public class ProductPageSteps extends WebDriverSteps {
 
     @Step
     public String getQuantity(String attribute) {
-        onProductPage().popup().quantity().should(isDisplayed()).should(hasAttribute(attribute));
-        return onProductPage().quantity().getAttribute("value");
+        return onProductPage().quantity().should(isDisplayed()).getAttribute(attribute);
     }
 
     @Step
