@@ -33,7 +33,7 @@ public class AmazonTest extends BaseTest {
         Product product2 = new Product(blouseName, blouseQuantity,
                 blousePrice, productPageSteps.getProductSize());
 
-        CardPageSteps cardPageSteps = productPageSteps.addToCard()
+        productPageSteps.addToCard()
                 .shouldContainProductName(blouseName)
                 .shouldContainProductQuantity(blouseQuantity, quantityAttribute)
                 .shouldContainProductSize(blouseSize)
