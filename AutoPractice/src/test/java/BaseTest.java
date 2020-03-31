@@ -15,6 +15,7 @@ public class BaseTest {
     protected String dressSize = "M";
     protected String blouseSize = "S";
     protected String dressQuantity = "10";
+    protected String quantityAttribute="value";
 
     @BeforeTest
     public void setUp() {

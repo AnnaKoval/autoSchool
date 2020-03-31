@@ -43,8 +43,9 @@ public class HasTextMatcher extends TypeSafeMatcher<WebElement> {
 
     @Override
     protected void describeMismatchSafely(WebElement item, Description mismatchDescription) {
-        mismatchDescription.appendText("Web element text does not matches ")
-                .appendDescriptionOf(m);
-        super.describeMismatchSafely(item, mismatchDescription);
+        mismatchDescription.appendText("text of element ")
+                .appendValue(item)
+                .appendText(" was ")
+                .appendValue(item.getText());
     }
 }

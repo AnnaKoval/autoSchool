@@ -1,5 +1,6 @@
 package steps;
 
+import elem.HtmlElement;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import pages.ProductPage;
@@ -7,8 +8,11 @@ import pages.ProductPage;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static matchers.HasAttributeMatcher.hasAttribute;
 import static matchers.HasTextMatcher.hasText;
 import static matchers.IsDisplayedMatcher.isDisplayed;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsEqual.equalTo;
 
 public class ProductPageSteps extends WebDriverSteps {
 
@@ -22,14 +26,15 @@ public class ProductPageSteps extends WebDriverSteps {
 
     @Step
     public ProductPageSteps selectSize(String size) {
-        onProductPage().size().selectByVisibleText(size);
+        onProductPage().size().should(isDisplayed()).selectByVisibleText(size);
         return this;
     }
 
     @Step
     public ProductPageSteps selectQuantity(String quantity) {
-        onProductPage().quantity().should(isDisplayed()).clear();
-        onProductPage().quantity().sendKeys(quantity);
+        HtmlElement quan = onProductPage().quantity();
+        quan.clear();
+        quan.sendKeys(quantity);
         return this;
     }
 
@@ -52,19 +57,13 @@ public class ProductPageSteps extends WebDriverSteps {
     }
 
     @Step
-    public ProductPageSteps shouldContainProductQuantity(String quantity) {
-        onProductPage().popup().quantity().should(isDisplayed()).should(hasText(quantity));
+    public ProductPageSteps shouldContainProductQuantity(String quantity, String attribute) {
+        assertThat(getQuantity(attribute), equalTo(quantity));
         return this;
     }
 
     @Step
-    public String getQuantity() {
-        return onProductPage().popup().quantity().getText();
-    }
-
-    @Step
-    public ProductPageSteps shouldContainTotalProductPrice(String price) {
-        int quantity = Integer.parseInt(getQuantity());
+    public ProductPageSteps shouldContainTotalProductPrice(String price, int quantity) {
         if (quantity == 1) {
             onProductPage().popup().price().should(isDisplayed()).should(hasText(price));
         } else {
@@ -92,16 +91,16 @@ public class ProductPageSteps extends WebDriverSteps {
 
     @Step
     public StoreHomePageSteps search(String str) {
-        onProductPage().header().searchInput().should(isDisplayed()).clear();
-        onProductPage().header().searchInput().sendKeys(str);
-        onProductPage().header().searchInput().submit();
+        HtmlElement inputSearch=onProductPage().header().searchInput();
+        inputSearch.clear();
+        inputSearch.sendKeys(str);
+        inputSearch.submit();
         return new StoreHomePageSteps(driver);
     }
 
     @Step
     public CardPageSteps openShoppingCard() {
-        onProductPage().header().shoppingCard().should(isDisplayed());
-        onProductPage().header().shoppingCard().click();
+        onProductPage().header().shoppingCard().should(isDisplayed()).click();
         return new CardPageSteps(driver);
     }
 
@@ -111,7 +110,8 @@ public class ProductPageSteps extends WebDriverSteps {
     }
 
     @Step
-    public String getProductQuantity() {
+    public String getQuantity(String attribute) {
+        onProductPage().popup().quantity().should(isDisplayed()).should(hasAttribute(attribute));
         return onProductPage().quantity().getAttribute("value");
     }
 

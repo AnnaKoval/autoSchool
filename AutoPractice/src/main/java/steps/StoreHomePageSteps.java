@@ -1,10 +1,9 @@
 package steps;
 
+import elem.HtmlElement;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import pages.HomePage;
-
-import static matchers.IsDisplayedMatcher.isDisplayed;
 
 public class StoreHomePageSteps extends WebDriverSteps {
 
@@ -18,9 +17,10 @@ public class StoreHomePageSteps extends WebDriverSteps {
 
     @Step
     public StoreHomePageSteps search(String str) {
-        onStoreHomePage().header().searchInput().should(isDisplayed()).clear();
-        onStoreHomePage().header().searchInput().sendKeys(str);
-        onStoreHomePage().header().searchInput().submit();
+        HtmlElement inputSearch=onStoreHomePage().header().searchInput();
+        inputSearch.clear();
+        inputSearch.sendKeys(str);
+        inputSearch.submit();
         return new StoreHomePageSteps(driver);
     }
 

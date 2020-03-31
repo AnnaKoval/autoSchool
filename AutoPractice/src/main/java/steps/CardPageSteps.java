@@ -7,11 +7,14 @@ import org.openqa.selenium.WebDriver;
 import pages.CardPage;
 import product.Product;
 
+import static junit.framework.TestCase.assertTrue;
 import static matchers.CaseInsensitiveSubstringMatcher.containsIgnoringCase;
 import static matchers.HasTextMatcher.hasText;
 import static matchers.IsDisplayedMatcher.isDisplayed;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 
 public class CardPageSteps extends WebDriverSteps {
 
@@ -21,6 +24,12 @@ public class CardPageSteps extends WebDriverSteps {
 
     public CardPage onCardPage() {
         return onPage(CardPage.class);
+    }
+
+    @Step
+    public CardPageSteps shouldContainProductList() {
+        onCardPage().orderedProducts().should(hasSize(greaterThan(0)));
+        return this;
     }
 
     @Step
@@ -58,19 +67,17 @@ public class CardPageSteps extends WebDriverSteps {
     @Step
     public CardPageSteps removeProduct(String name) {
         ElementsCollection<Ordered> orderedProducts = onCardPage().orderedProducts();
-        for (int i = 0; i < orderedProducts.size(); i++) {
-            if (orderedProducts.get(i).description().productName().getText().contains(name)) ;
-            onCardPage().orderedProducts().get(i).deleteButton().should(isDisplayed()).click();
-        }
+        orderedProducts.stream()
+                .filter(orderedProduct -> !orderedProduct.description().productName().getText().contains(name))
+                .forEach(orderedProduct -> orderedProduct.deleteButton().should(isDisplayed()).click());
         return this;
     }
 
-    public CardPageSteps shouldNotContainDeletedProduct(String name) throws Exception {
+    public CardPageSteps shouldNotContainDeletedProduct(String name) {
         ElementsCollection<Ordered> orderedProducts = onCardPage().orderedProducts();
-        for (int i = 0; i < orderedProducts.size(); i++) {
-            if (orderedProducts.get(i).description().productName().getText().contains(name))
-                throw new Exception();
-        }
+        assertTrue(!orderedProducts.stream()
+                .anyMatch(orderedProduct ->
+                        orderedProduct.description().productName().getText().contains(name)));
         return this;
     }
 

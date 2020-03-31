@@ -15,12 +15,12 @@ public class CaseInsensitiveSubstringMatcher extends TypeSafeMatcher<String> {
 
     @Override
     protected boolean matchesSafely(final String actualString) {
-        return actualString.toLowerCase().contains(this.subString.toLowerCase());
+        return actualString.toLowerCase().contains(subString.toLowerCase());
     }
 
     @Override
     public void describeTo(final Description description) {
-        description.appendText("containing substring " + this.subString);
+        description.appendText("containing substring " + subString);
     }
 
     @Factory

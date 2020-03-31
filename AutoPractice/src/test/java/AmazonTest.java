@@ -6,22 +6,22 @@ import steps.ProductPageSteps;
 public class AmazonTest extends BaseTest {
 
     @Test
-    public void testAmazon() throws Exception {
+    public void testAmazon() {
         ProductPageSteps productPageSteps = storeHomePageSteps
                 .search(searchDress)
                 .selectProduct(0)
                 .selectQuantity(dressQuantity);
-                //.selectSize(dressSize);                                      //?????????????????????????????????????????
+        //.selectSize(dressSize);
+
         String name = productPageSteps.onProductPage().name().getText();
         String price = productPageSteps.onProductPage().price().getText();
-
         Product product1 = new Product(name, dressQuantity, price, dressSize);
 
         productPageSteps.addToCard()
                 .shouldContainProductName(name)
-                .shouldContainProductQuantity(dressQuantity)
+                .shouldContainProductQuantity(dressQuantity, quantityAttribute)
                 .shouldContainProductSize(dressSize)
-                .shouldContainTotalProductPrice(price)
+                .shouldContainTotalProductPrice(price, Integer.parseInt(dressQuantity))
                 .continueShopping()
                 .search(searchBlouse)
                 .selectProduct(0);
@@ -29,22 +29,21 @@ public class AmazonTest extends BaseTest {
 
         String blouseName = productPageSteps.onProductPage().name().getText();
         String blousePrice = productPageSteps.onProductPage().price().getText();
-        String blouseQuantity = productPageSteps.onProductPage().quantity().getAttribute("value");
-
+        String blouseQuantity = productPageSteps.getQuantity(quantityAttribute);
         Product product2 = new Product(blouseName, blouseQuantity,
                 blousePrice, productPageSteps.getProductSize());
 
         CardPageSteps cardPageSteps = productPageSteps.addToCard()
                 .shouldContainProductName(blouseName)
-                .shouldContainProductQuantity(blouseQuantity)
+                .shouldContainProductQuantity(blouseQuantity, quantityAttribute)
                 .shouldContainProductSize(blouseSize)
-                .shouldContainTotalProductPrice(blousePrice)
+                .shouldContainTotalProductPrice(blousePrice, Integer.parseInt(blouseQuantity))
                 .continueShopping()
                 .openShoppingCard()
+                .shouldContainProductList()
                 .shouldContainProductInfo(product1, 0)
-                .shouldContainProductInfo(product2, 1);
-
-        cardPageSteps.removeProduct(searchDress)
+                .shouldContainProductInfo(product2, 1)
+                .removeProduct(searchDress)
                 .shouldNotContainDeletedProduct(searchDress)
                 .shouldContainProduct(searchBlouse, 0);
     }

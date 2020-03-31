@@ -7,6 +7,6 @@ import io.qameta.atlas.webdriver.extension.FindBy;
 import layout.WithHeader;
 
 public interface HomePage extends WebPage, WithHeader {
-    @FindBy("//*[@id='center_column']/div[1]")
+    @FindBy("//li[contains(@class, 'ajax_block_product')]")
     ElementsCollection<Result> results();
 }

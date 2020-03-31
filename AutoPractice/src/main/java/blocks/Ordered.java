@@ -14,6 +14,6 @@ public interface Ordered extends AtlasWebElement<Ordered> {
     @FindBy(".//a[contains(@title, 'Delete')]")
     HtmlElement deleteButton();
 
-    @FindBy("//input[contains(@class, 'cart_quantity_input')]")
+    @FindBy(".//input[contains(@class, 'cart_quantity_input')]")
     HtmlElement quantity();
 }
