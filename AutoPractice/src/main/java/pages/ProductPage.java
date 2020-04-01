@@ -14,7 +14,7 @@ public interface ProductPage extends WebPage, WithHeader, WithPopup {
     @FindBy("//input[@id='quantity_wanted']")
     HtmlElement quantity();
 
-    @FindBy("//div[@id='uniform-group_1']")
+    @FindBy("//*[@id='group_1']")
     Select size();
 
     @FindBy("//button[@name='Submit']")

@@ -17,7 +17,7 @@ public class StoreHomePageSteps extends WebDriverSteps {
 
     @Step
     public StoreHomePageSteps search(String str) {
-        HtmlElement inputSearch=onStoreHomePage().header().searchInput();
+        HtmlElement inputSearch = onStoreHomePage().header().searchInput();
         inputSearch.clear();
         inputSearch.sendKeys(str);
         inputSearch.submit();

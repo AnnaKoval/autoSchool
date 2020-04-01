@@ -37,10 +37,6 @@ public class HasTextMatcher extends TypeSafeMatcher<WebElement> {
         return m.matches(elem.getText());
     }
 
-    protected boolean matchesSafely(String elem) {
-        return m.matches(elem);
-    }
-
     @Override
     protected void describeMismatchSafely(WebElement item, Description mismatchDescription) {
         mismatchDescription.appendText("text of element ")

@@ -8,9 +8,9 @@ import pages.ProductPage;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static matchers.HasAttributeMatcher.hasAttribute;
 import static matchers.HasTextMatcher.hasText;
 import static matchers.IsDisplayedMatcher.isDisplayed;
+import static org.hamcrest.Matchers.containsString;
 
 public class ProductPageSteps extends WebDriverSteps {
 
@@ -24,7 +24,7 @@ public class ProductPageSteps extends WebDriverSteps {
 
     @Step
     public ProductPageSteps selectSize(String size) {
-        onProductPage().size().should(isDisplayed()).selectByVisibleText(size);
+        onProductPage().size().selectByVisibleText(size);
         return this;
     }
 
@@ -50,13 +50,13 @@ public class ProductPageSteps extends WebDriverSteps {
 
     @Step
     public ProductPageSteps shouldContainProductSize(String size) {
-        onProductPage().popup().size().should(isDisplayed()).should(hasText(size));
+        onProductPage().popup().size().should(isDisplayed()).should(hasText(containsString(size)));
         return this;
     }
 
     @Step
-    public ProductPageSteps shouldContainProductQuantity(String quantity, String attribute) {
-        onProductPage().popup().quantity().should(isDisplayed()).should(hasAttribute(attribute, quantity));
+    public ProductPageSteps shouldContainProductQuantity(String quantity) {
+        onProductPage().popup().quantity().should(isDisplayed()).should(hasText(quantity));
         return this;
     }
 
@@ -89,7 +89,7 @@ public class ProductPageSteps extends WebDriverSteps {
 
     @Step
     public StoreHomePageSteps search(String str) {
-        HtmlElement inputSearch=onProductPage().header().searchInput();
+        HtmlElement inputSearch = onProductPage().header().searchInput();
         inputSearch.clear();
         inputSearch.sendKeys(str);
         inputSearch.submit();
