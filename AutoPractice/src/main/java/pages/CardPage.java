@@ -11,8 +11,5 @@ public interface CardPage extends WebPage {
     ElementsCollection<Ordered> orderedProducts();
 
     @FindBy("//*[@id='total_product']")
-    HtmlElement totalProductsPrice();
-
-    @FindBy("//*[@id='total_price_container']")
     HtmlElement totalPrice();
 }

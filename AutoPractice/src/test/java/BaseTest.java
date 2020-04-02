@@ -9,15 +9,7 @@ import java.util.concurrent.TimeUnit;
 public class BaseTest {
     protected StoreHomePageSteps storeHomePageSteps;
     protected String url = "http://automationpractice.com";
-    protected String searchBlouse = "blouse";
-    protected String searchDress = "Printed Dress";
     protected WebDriver driver;
-    protected String dressSize = "M";
-    protected String blouseSize = "S";
-    protected String dressQuantity = "10";
-    protected String quantityAttribute="value";
-    protected String printedStr="Printed";
-    protected String dressStr="Dress";
 
     @BeforeTest
     public void setUp() {

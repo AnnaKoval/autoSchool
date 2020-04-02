@@ -8,9 +8,9 @@ import org.openqa.selenium.WebElement;
 
 public class HasAttributeMatcher extends TypeSafeMatcher<WebElement> {
     private String attribute;
-    private String value;
+    private int value;
 
-    public HasAttributeMatcher(String attribute, String value) {
+    public HasAttributeMatcher(String attribute, int value) {
         this.attribute = attribute;
         this.value = value;
     }
@@ -22,14 +22,14 @@ public class HasAttributeMatcher extends TypeSafeMatcher<WebElement> {
     }
 
     @Factory
-    public static HasAttributeMatcher hasAttribute(String parameter, String value) {
+    public static HasAttributeMatcher hasAttribute(String parameter, int value) {
         return new HasAttributeMatcher(parameter, value);
     }
 
     @Override
     protected boolean matchesSafely(WebElement elem) {
         try {
-            if (elem.getAttribute(attribute).equals(value))
+            if (elem.getAttribute(attribute).equals(String.valueOf(value)))
                 return true;
             else
                 return false;

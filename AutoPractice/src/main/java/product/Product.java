@@ -2,11 +2,12 @@ package product;
 
 public class Product {
     private String name;
-    private String quantity;
+    private int quantity;
     private String price;
     private String size;
+    private String totalPrice;
 
-    public Product(String name, String quantity, String price, String size) {
+    public Product(String name, int quantity, String price, String size) {
         this.name = name;
         this.quantity = quantity;
         this.price = price;
@@ -21,11 +22,11 @@ public class Product {
         this.name = name;
     }
 
-    public String getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(String quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
@@ -44,4 +45,13 @@ public class Product {
     public void setSize(String size) {
         this.size = size;
     }
+
+    public String getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(String totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
 }

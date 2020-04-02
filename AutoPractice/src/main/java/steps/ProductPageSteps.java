@@ -4,13 +4,15 @@ import elem.HtmlElement;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import pages.ProductPage;
+import product.Product;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static matchers.HasTextMatcher.hasText;
 import static matchers.IsDisplayedMatcher.isDisplayed;
-import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalToIgnoringCase;
+import static org.junit.Assert.assertThat;
 
 public class ProductPageSteps extends WebDriverSteps {
 
@@ -29,10 +31,10 @@ public class ProductPageSteps extends WebDriverSteps {
     }
 
     @Step
-    public ProductPageSteps selectQuantity(String quantity) {
-        HtmlElement quan = onProductPage().quantity();
+    public ProductPageSteps inputQuantity(int quantity) {
+        HtmlElement quan = onProductPage().quantity().should(isDisplayed());
         quan.clear();
-        quan.sendKeys(quantity);
+        quan.sendKeys(String.valueOf(quantity));
         return this;
     }
 
@@ -43,53 +45,59 @@ public class ProductPageSteps extends WebDriverSteps {
     }
 
     @Step
-    public ProductPageSteps shouldContainProductName(String name) {
+    public ProductPageSteps shouldSeeProductSelected(Product product) {
+        return shouldSeeProductName(product.getName())
+                .shouldSeeProductQuantity(product.getQuantity())
+                .shouldSeeProductSize(product.getSize());
+    }
+
+    @Step
+    public ProductPageSteps shouldSeeProductName(String name) {
         onProductPage().popup().name().should(isDisplayed()).should(hasText(name));
         return this;
     }
 
     @Step
-    public ProductPageSteps shouldContainProductSize(String size) {
-        onProductPage().popup().size().should(isDisplayed()).should(hasText(containsString(size)));
+    public ProductPageSteps shouldSeeProductSize(String size) {
+        String strWithSize = onProductPage().popup().size().should(isDisplayed()).getText();
+        Pattern patt = Pattern.compile("(\\D*\\,\\s)(\\S)");
+        Matcher match = patt.matcher(strWithSize);
+        if (match.find())
+            System.out.println("Its match!");
+        assertThat(match.group(2), equalToIgnoringCase(size));
         return this;
     }
 
     @Step
-    public ProductPageSteps shouldContainProductQuantity(String quantity) {
-        onProductPage().popup().quantity().should(isDisplayed()).should(hasText(quantity));
+    public ProductPageSteps shouldSeeProductQuantity(int quantity) {
+        onProductPage().popup().quantity().should(isDisplayed()).should(hasText(String.valueOf(quantity)));
         return this;
     }
 
     @Step
-    public ProductPageSteps shouldContainTotalProductPrice(String price, int quantity) {
-        if (quantity == 1) {
-            onProductPage().popup().price().should(isDisplayed()).should(hasText(price));
+    public String getTotalProductPrice(Product product) {
+        if (product.getQuantity() == 1) {
+            return product.getPrice();
         } else {
-            Pattern patt = Pattern.compile("\\$(\\d*)\\.(\\d+)");
-            Matcher match = patt.matcher(price);
+            Pattern patt = Pattern.compile("\\$(\\S*)");
+            Matcher match = patt.matcher(product.getPrice());
             if (match.find())
                 System.out.println("Its match!");
-            int total = quantity * Integer.parseInt(match.group(1));
-            int part = quantity * Integer.parseInt(match.group(2));
-
-            int remainder = part / 100;
-            part = part - 100 * remainder;
-            total = total + remainder;
-            String priceStr = "$" + total + "." + part;
-            onProductPage().popup().price().should(isDisplayed()).should(hasText(priceStr));
+            double total = product.getQuantity() * Double.parseDouble(match.group(1));
+            String totalStr = "$" + String.format("%.2f", total);
+            return totalStr.replace(",", ".");
         }
-        return this;
     }
 
     @Step
     public ProductPageSteps continueShopping() {
-        onProductPage().popup().continueButton().click();
+        onProductPage().popup().continueButton().should(isDisplayed()).click();
         return new ProductPageSteps(driver);
     }
 
     @Step
     public StoreHomePageSteps search(String str) {
-        HtmlElement inputSearch = onProductPage().header().searchInput();
+        HtmlElement inputSearch = onProductPage().header().searchInput().should(isDisplayed());
         inputSearch.clear();
         inputSearch.sendKeys(str);
         inputSearch.submit();
@@ -104,21 +112,21 @@ public class ProductPageSteps extends WebDriverSteps {
 
     @Step
     public String getProductName() {
-        return onProductPage().name().getText();
+        return onProductPage().name().should(isDisplayed()).getText();
     }
 
     @Step
-    public String getQuantity(String attribute) {
-        return onProductPage().quantity().should(isDisplayed()).getAttribute(attribute);
+    public int getQuantity(String attribute) {
+        return Integer.parseInt(onProductPage().quantity().should(isDisplayed()).getAttribute(attribute));
     }
 
     @Step
     public String getProductSize() {
-        return onProductPage().size().getText();
+        return onProductPage().size().should(isDisplayed()).getText();
     }
 
     @Step
     public String getProductPrice() {
-        return onProductPage().price().getText();
+        return onProductPage().price().should(isDisplayed()).getText();
     }
 }
