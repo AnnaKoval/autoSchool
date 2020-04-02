@@ -5,7 +5,6 @@ public class Product {
     private int quantity;
     private String price;
     private String size;
-    private String totalPrice;
 
     public Product(String name, int quantity, String price, String size) {
         this.name = name;
@@ -45,13 +44,4 @@ public class Product {
     public void setSize(String size) {
         this.size = size;
     }
-
-    public String getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(String totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
 }

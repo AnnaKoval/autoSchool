@@ -57,13 +57,8 @@ public class CardPageSteps extends WebDriverSteps {
 
     @Step
     public CardPageSteps shouldSeeSize(Product p, int index) {
-        String strWithSize = onCardPage().orderedProducts().get(index).description().productSize()
-                .should(isDisplayed()).getText();
-        Pattern patt = Pattern.compile("(\\D*\\,\\D*\\:\\s)(\\S)");
-        Matcher match = patt.matcher(strWithSize);
-        if (match.find())
-            System.out.println("Its match!");
-        assertThat(match.group(2), equalToIgnoringCase(p.getSize()));
+        onCardPage().orderedProducts().get(index).description().productSize()
+                .should(isDisplayed()).should(hasText(containsString(": "+p.getSize())));
         return this;
     }
 
@@ -92,31 +87,26 @@ public class CardPageSteps extends WebDriverSteps {
                 .waitUntil(not(empty()))
                 .filter(orderedProduct -> orderedProduct.description().productName().getText().contains(parts[0])
                         && orderedProduct.description().productName().getText().contains(parts[1]))
-                .extract(orderedProduct -> orderedProduct.description().productName().should(nullValue()));
-//        .stream()
-//                .findAny()
-//                .orElse(null).description().productName()
-//                .should(nullValue());
+                .should(hasSize(0));
         return this;
     }
 
     public CardPageSteps shouldSeeProduct(String name) {
-        for (Ordered ordered: onCardPage().orderedProducts()) {
-            ordered.description().productName()
-                    .should(containsIgnoringCase(name));
-        }
+        onCardPage().orderedProducts()
+                .waitUntil(not(empty()))
+                .filter(orderedProduct -> orderedProduct.description().productName().getText().contains(name))
+                .should(hasSize(greaterThan(0)));
         return this;
     }
 
-    public CardPageSteps shouldSeeTotalPrice(String totalPrice1, String totalPrice2) {
+    public CardPageSteps shouldSeeTotalPrice(Product product1, Product product2) {
         Pattern patt = Pattern.compile("\\$(\\S*)");
-        Matcher match1 = patt.matcher(totalPrice1);
-        Matcher match2 = patt.matcher(totalPrice2);
-
+        Matcher match1 = patt.matcher(product1.getPrice());
+        Matcher match2 = patt.matcher(product2.getPrice());
         if (match1.find() && match2.find())
             System.out.println("Its match!");
-
-        double total = Double.parseDouble(match1.group(1)) + Double.parseDouble(match2.group(1));
+        double total = product1.getQuantity() * Double.parseDouble(match1.group(1)) +
+                product2.getQuantity() * Double.parseDouble(match2.group(1));
         String totalStr = ("$" + String.format("%.2f", total)).replace(",", ".");
         assertThat(onCardPage().totalPrice().should(isDisplayed()), hasText(totalStr));
         return this;

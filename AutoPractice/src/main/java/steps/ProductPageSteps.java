@@ -6,13 +6,9 @@ import org.openqa.selenium.WebDriver;
 import pages.ProductPage;
 import product.Product;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import static matchers.HasTextMatcher.hasText;
 import static matchers.IsDisplayedMatcher.isDisplayed;
-import static org.hamcrest.Matchers.equalToIgnoringCase;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 
 public class ProductPageSteps extends WebDriverSteps {
 
@@ -59,12 +55,7 @@ public class ProductPageSteps extends WebDriverSteps {
 
     @Step
     public ProductPageSteps shouldSeeProductSize(String size) {
-        String strWithSize = onProductPage().popup().size().should(isDisplayed()).getText();
-        Pattern patt = Pattern.compile("(\\D*\\,\\s)(\\S)");
-        Matcher match = patt.matcher(strWithSize);
-        if (match.find())
-            System.out.println("Its match!");
-        assertThat(match.group(2), equalToIgnoringCase(size));
+        onProductPage().popup().size().should(isDisplayed()).should(hasText(containsString(", "+size)));
         return this;
     }
 
@@ -72,21 +63,6 @@ public class ProductPageSteps extends WebDriverSteps {
     public ProductPageSteps shouldSeeProductQuantity(int quantity) {
         onProductPage().popup().quantity().should(isDisplayed()).should(hasText(String.valueOf(quantity)));
         return this;
-    }
-
-    @Step
-    public String getTotalProductPrice(Product product) {
-        if (product.getQuantity() == 1) {
-            return product.getPrice();
-        } else {
-            Pattern patt = Pattern.compile("\\$(\\S*)");
-            Matcher match = patt.matcher(product.getPrice());
-            if (match.find())
-                System.out.println("Its match!");
-            double total = product.getQuantity() * Double.parseDouble(match.group(1));
-            String totalStr = "$" + String.format("%.2f", total);
-            return totalStr.replace(",", ".");
-        }
     }
 
     @Step
