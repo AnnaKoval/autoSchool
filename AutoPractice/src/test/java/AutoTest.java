@@ -44,7 +44,7 @@ public class AutoTest extends BaseTest {
                 .shouldSeeProduct(product2, 1)
                 .shouldSeeTotalPrice(product1.getTotalPrice(), product2.getTotalPrice())
                 .removeProduct(searchDress)
-                .shouldNotContainDeletedProduct(searchDress)//??????????
-                .shouldSeeProduct(searchBlouse);//????????????????
+                .shouldNotContainDeletedProduct(searchDress);//?
+                //.shouldSeeProduct(searchBlouse);//?
     }
 }

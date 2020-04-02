@@ -1,5 +1,6 @@
 package steps;
 
+import blocks.Ordered;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import pages.CardPage;
@@ -8,6 +9,7 @@ import product.Product;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static matchers.CaseInsensitiveSubstringMatcher.containsIgnoringCase;
 import static matchers.HasAttributeMatcher.hasAttribute;
 import static matchers.HasTextMatcher.hasText;
 import static matchers.IsDisplayedMatcher.isDisplayed;
@@ -85,20 +87,24 @@ public class CardPageSteps extends WebDriverSteps {
     }
 
     public CardPageSteps shouldNotContainDeletedProduct(String str) {
-//        String[] parts = str.split(" ");
-//        onCardPage().orderedProducts().stream()
-//                .filter(orderedProduct -> orderedProduct.description().productName().getText().contains(parts[0])
-//                        && orderedProduct.description().productName().getText().contains(parts[1]))
-//                .extract(orderedProduct -> orderedProduct.description().productName().getText())
-//                .should(hasSize(equalTo(0)));
+        String[] parts = str.split(" ");
+        onCardPage().orderedProducts()
+                .waitUntil(not(empty()))
+                .filter(orderedProduct -> orderedProduct.description().productName().getText().contains(parts[0])
+                        && orderedProduct.description().productName().getText().contains(parts[1]))
+                .extract(orderedProduct -> orderedProduct.description().productName().should(nullValue()));
+//        .stream()
+//                .findAny()
+//                .orElse(null).description().productName()
+//                .should(nullValue());
         return this;
     }
 
     public CardPageSteps shouldSeeProduct(String name) {
-        onCardPage().orderedProducts().stream()
-                .filter(orderedProduct -> orderedProduct.description().productName()
-                        .should(isDisplayed()).getText().contains(name)).count();
-        //should(hasSize(greaterThan(0))););
+        for (Ordered ordered: onCardPage().orderedProducts()) {
+            ordered.description().productName()
+                    .should(containsIgnoringCase(name));
+        }
         return this;
     }
 
