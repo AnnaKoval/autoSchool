@@ -58,7 +58,7 @@ public class CardPageSteps extends WebDriverSteps {
     @Step
     public CardPageSteps shouldSeeSize(Product p, int index) {
         onCardPage().orderedProducts().get(index).description().productSize()
-                .should(isDisplayed()).should(hasText(containsString(": "+p.getSize())));
+                .should(isDisplayed()).should(hasText(containsString(": " + p.getSize())));
         return this;
     }
 
@@ -92,23 +92,28 @@ public class CardPageSteps extends WebDriverSteps {
     }
 
     public CardPageSteps shouldSeeProduct(String name) {
+
         onCardPage().orderedProducts()
                 .waitUntil(not(empty()))
-                .filter(orderedProduct -> orderedProduct.description().productName().getText().contains(name))
+                .filter(orderedProduct -> orderedProduct.description().productName().getText().toLowerCase().contains(name.toLowerCase()))
                 .should(hasSize(greaterThan(0)));
         return this;
     }
 
     public CardPageSteps shouldSeeTotalPrice(Product product1, Product product2) {
+        double total = handlingPrice(product1, product2);
+        String totalStr = ("$" + String.format("%.2f", total)).replace(",", ".");
+        assertThat(onCardPage().totalPrice().should(isDisplayed()), hasText(totalStr));
+        return this;
+    }
+
+    public double handlingPrice(Product product1, Product product2) {
         Pattern patt = Pattern.compile("\\$(\\S*)");
         Matcher match1 = patt.matcher(product1.getPrice());
         Matcher match2 = patt.matcher(product2.getPrice());
         if (match1.find() && match2.find())
             System.out.println("Its match!");
-        double total = product1.getQuantity() * Double.parseDouble(match1.group(1)) +
+        return product1.getQuantity() * Double.parseDouble(match1.group(1)) +
                 product2.getQuantity() * Double.parseDouble(match2.group(1));
-        String totalStr = ("$" + String.format("%.2f", total)).replace(",", ".");
-        assertThat(onCardPage().totalPrice().should(isDisplayed()), hasText(totalStr));
-        return this;
     }
 }

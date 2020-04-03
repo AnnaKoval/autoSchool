@@ -5,7 +5,7 @@ import steps.ProductPageSteps;
 public class AutoTest extends BaseTest {
 
     @Test
-    public void autoTest() {
+    public void autoTest() throws InterruptedException {
         String searchDress = "Printed Dress", searchBlouse = "blouse";
         String dressSize = "M", blouseSize = "S";
         int dressQuantity = 10;
