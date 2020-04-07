@@ -1,9 +1,10 @@
 package steps;
 
 import io.qameta.allure.Step;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import pages.HomePage;
+
+import static matchers.IsDisplayedMatcher.isDisplayed;
 
 public class HomePageSteps extends WebDriverSteps {
 
@@ -16,8 +17,10 @@ public class HomePageSteps extends WebDriverSteps {
     }
 
     @Step
-    public void selectWomenCityBikes() {
-        onHomePage().menu().selectMenu("/velosipedy/");
-        onHomePage().menu().selectMenu("/gorodskie-velosipedy/").click();
+    public ResultPageSteps selectWomenCityBikes() {
+        onHomePage().menu().selectMenu("/velosipedy/").should(isDisplayed()).click();
+        onHomePage().menu().selectMenu("/gorodskie-velosipedy/").should(isDisplayed()).click();
+        onHomePage().menu().selectMenu("/zhenskie-gorodskie-velosipedy/").should(isDisplayed()).click();
+        return new ResultPageSteps(driver);
     }
 }

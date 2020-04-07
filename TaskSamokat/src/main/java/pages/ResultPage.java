@@ -4,9 +4,11 @@ import blocks.Result;
 import io.qameta.atlas.webdriver.ElementsCollection;
 import io.qameta.atlas.webdriver.WebPage;
 import io.qameta.atlas.webdriver.extension.FindBy;
-public interface ResultPage extends WebPage {
+import layout.WithFilter;
+import layout.WithSort;
 
-    @FindBy("//ul[contains(@class, 'product')]/li")
+public interface ResultPage extends WebPage, WithSort, WithFilter {
+    @FindBy("//ul[@class='products']/li")
     ElementsCollection<Result> resultRroducts();
 
 }
