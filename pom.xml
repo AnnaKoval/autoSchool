@@ -17,6 +17,7 @@
         <module>11-Selenium</module>
         <module>11-SeleniumWebDriver</module>
         <module>AutoPractice</module>
+        <module>TaskSamokat</module>
     </modules>
 
     <build>

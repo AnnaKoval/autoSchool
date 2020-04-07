@@ -2,13 +2,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
-import steps.StoreHomePageSteps;
+import steps.HomePageSteps;
 
 import java.util.concurrent.TimeUnit;
 
 public class BaseTest {
-    protected StoreHomePageSteps storeHomePageSteps;
-    protected String url = "http://automationpractice.com";
+    protected HomePageSteps homePageSteps;
+    protected String url = "https://samokat.ua/";
     protected WebDriver driver;
 
     @BeforeTest
@@ -18,7 +18,7 @@ public class BaseTest {
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.get(url);
-        storeHomePageSteps = new StoreHomePageSteps(driver);
+        homePageSteps = new HomePageSteps(driver);
     }
 
     @AfterTest
