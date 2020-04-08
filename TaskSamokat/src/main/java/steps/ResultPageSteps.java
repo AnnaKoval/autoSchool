@@ -2,6 +2,7 @@ package steps;
 
 import io.qameta.allure.Step;
 import org.junit.Assert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import pages.ResultPage;
@@ -37,8 +38,8 @@ public class ResultPageSteps extends WebDriverSteps {
 
     @Step
     public ResultPageSteps selectFilter(String filterStr) {
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", onResultPage().filterOptions().selectOption(filterStr));
-        onResultPage().filterOptions().selectOption(filterStr).should(isDisplayed()).click();
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();",
+                onResultPage().filterOptions().selectOption(filterStr).findElement(By.xpath("self::*")));
         return this;
     }
 
@@ -52,8 +53,6 @@ public class ResultPageSteps extends WebDriverSteps {
                 } else {
                     Assert.fail("Price is not sorted");
                 }
-            } else {
-                return this;
             }
         }
         return this;
@@ -75,12 +74,24 @@ public class ResultPageSteps extends WebDriverSteps {
     }
 
     @Step
-    public ResultPageSteps shouldSeeFilteredProducts(String manufacturer) {
-        for (int i = 0; i < onResultPage().resultRroducts().size(); i++) {
-            shouldSeeManufacturer(i, manufacturer);
-            //...
-        }
+    public ResultPageSteps shouldSeeWheel(int index, String wheel) {
+        onResultPage().resultRroducts().get(index).name().should(isDisplayed()).should(hasText(containsIgnoringCase("Велосипед " + wheel)));
         return this;
     }
 
+    @Step
+    public ResultPageSteps shouldSeeSpeed(int index, String speed) {
+        //onResultPage().resultRroducts().get(index).name().should(isDisplayed()).should(hasText()); ?
+        return this;
+    }
+
+    @Step
+    public ResultPageSteps shouldSeeFilteredProducts(String manufacturer, String wheel, String speed) {
+        for (int i = 0; i < onResultPage().resultRroducts().size(); i++) {
+            shouldSeeManufacturer(i, manufacturer);
+            //shouldSeeWheel(i, wheel);
+            //shouldSeeSpeed(i, speed);
+        }
+        return this;
+    }
 }

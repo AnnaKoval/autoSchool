@@ -9,8 +9,9 @@ public class TestSamokat extends BaseTest {
                 .shouldSeeResultList()
                 .shouldSeeSortedPrice()
                 .selectFilter("pride")
-                .selectFilter("20")
-                .shouldSeeFilteredProducts("pride");
+                //.selectFilter("20")
+                // .selectFilter("3")
+                .shouldSeeFilteredProducts("pride", "20", "3");
 
     }
 }
