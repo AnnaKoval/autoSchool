@@ -43,23 +43,6 @@ public class ResultPageSteps extends WebDriverSteps {
         return this;
     }
 
-    @Step
-    public ResultPageSteps shouldSeeSortedPrice() {
-        for (int i = 0; i < onResultPage().resultRroducts().size() - 1; i++) {
-            if (isAvailable(i + 1)) {
-                if (convertPriceToInt(onResultPage().resultRroducts().get(i).price().should(isDisplayed()).getText())
-                        <= convertPriceToInt(onResultPage().resultRroducts().get(i + 1).price().should(isDisplayed()).getText())) {
-                    System.out.println("Price is sorted");
-                } else {
-                    Assert.fail("Price is not sorted");
-                }
-            } else {
-                return this;
-            }
-        }
-        return this;
-    }
-
     public int convertPriceToInt(String strPrice) {
         return Integer.valueOf(strPrice.replace(" ", ""));
     }
@@ -100,7 +83,7 @@ public class ResultPageSteps extends WebDriverSteps {
         onResultPage().filterOptions().priceMin().should(isDisplayed()).sendKeys(priceMin);
         onResultPage().filterOptions().priceMax().should(isDisplayed()).clear();
         onResultPage().filterOptions().priceMax().should(isDisplayed()).sendKeys(priceMax);
-        onResultPage().filterOptions().submitButton().click();
+        onResultPage().filterOptions().submitButton().should(isDisplayed()).click();
         return this;
     }
 
@@ -113,5 +96,4 @@ public class ResultPageSteps extends WebDriverSteps {
         }
         return this;
     }
-
 }
