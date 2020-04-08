@@ -53,6 +53,8 @@ public class ResultPageSteps extends WebDriverSteps {
                 } else {
                     Assert.fail("Price is not sorted");
                 }
+            } else {
+                return this;
             }
         }
         return this;
@@ -80,18 +82,36 @@ public class ResultPageSteps extends WebDriverSteps {
     }
 
     @Step
-    public ResultPageSteps shouldSeeSpeed(int index, String speed) {
-        //onResultPage().resultRroducts().get(index).name().should(isDisplayed()).should(hasText()); ?
+    public ResultPageSteps shouldSeePrice(int index, int priceMin, int priceMax) {
+        if (isAvailable(index)) {
+            if (convertPriceToInt(onResultPage().resultRroducts().get(index).price().should(isDisplayed()).getText()) >= priceMin &&
+                    priceMax >= convertPriceToInt(onResultPage().resultRroducts().get(index).price().should(isDisplayed()).getText())) {
+                System.out.println("Price is filtered");
+            } else {
+                Assert.fail("Price is not filtered");
+            }
+        }
         return this;
     }
 
     @Step
-    public ResultPageSteps shouldSeeFilteredProducts(String manufacturer, String wheel, String speed) {
+    public ResultPageSteps inputPriceFilter(String priceMin, String priceMax) {
+        onResultPage().filterOptions().priceMin().should(isDisplayed()).clear();
+        onResultPage().filterOptions().priceMin().should(isDisplayed()).sendKeys(priceMin);
+        onResultPage().filterOptions().priceMax().should(isDisplayed()).clear();
+        onResultPage().filterOptions().priceMax().should(isDisplayed()).sendKeys(priceMax);
+        onResultPage().filterOptions().submitButton().click();
+        return this;
+    }
+
+    @Step
+    public ResultPageSteps shouldSeeFilteredProducts(String manufacturer, String wheel, int priceMin, int priceMax) {
         for (int i = 0; i < onResultPage().resultRroducts().size(); i++) {
             shouldSeeManufacturer(i, manufacturer);
-            //shouldSeeWheel(i, wheel);
-            //shouldSeeSpeed(i, speed);
+            shouldSeeWheel(i, wheel);
+            shouldSeePrice(i, priceMin, priceMax);
         }
         return this;
     }
+
 }

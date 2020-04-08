@@ -10,5 +10,4 @@ import layout.WithSort;
 public interface ResultPage extends WebPage, WithSort, WithFilter {
     @FindBy("//ul[@class='products']/li")
     ElementsCollection<Result> resultRroducts();
-
 }
