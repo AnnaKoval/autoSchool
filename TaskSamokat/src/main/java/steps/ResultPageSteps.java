@@ -1,5 +1,7 @@
 package steps;
 
+import blocks.Result;
+import elem.HtmlElement;
 import io.qameta.allure.Step;
 import org.junit.Assert;
 import org.openqa.selenium.By;
@@ -8,8 +10,6 @@ import org.openqa.selenium.WebDriver;
 import pages.ResultPage;
 
 import static matchers.IsDisplayedMatcher.isDisplayed;
-import static matchers.HasTextMatcher.*;
-import static matchers.CaseInsensitiveSubstringMatcher.*;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 
@@ -37,9 +37,11 @@ public class ResultPageSteps extends WebDriverSteps {
     }
 
     @Step
-    public ResultPageSteps selectFilter(String filterStr) {
+    public ResultPageSteps selectFilter(String filterTitle, String filterOption) {
+        ((JavascriptExecutor) driver).executeScript("arguments[0]",
+                onResultPage().checkboxOptions().selectOption().title(filterTitle).findElement(By.xpath("self::*")));
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();",
-                onResultPage().filterOptions().selectOption(filterStr).findElement(By.xpath("self::*")));
+                onResultPage().checkboxOptions().selectOption().selectOption(filterOption).findElement(By.xpath("self::*")));
         return this;
     }
 
@@ -48,52 +50,59 @@ public class ResultPageSteps extends WebDriverSteps {
     }
 
     @Step
-    public boolean isAvailable(int index) {
-        return onResultPage().resultRroducts().get(index).isAvailable().should(isDisplayed()).getText().contains("Есть в наличии");
+    public boolean isAvailable(Result product) {
+        return product.isAvailable().should(isDisplayed()).getText().contains("Есть в наличии");
     }
 
     @Step
-    public ResultPageSteps shouldSeeManufacturer(int index, String manufacturer) {
-        onResultPage().resultRroducts().get(index).name().should(isDisplayed()).should(hasText(containsIgnoringCase(manufacturer)));
-        return this;
-    }
-
-    @Step
-    public ResultPageSteps shouldSeeWheel(int index, String wheel) {
-        onResultPage().resultRroducts().get(index).name().should(isDisplayed()).should(hasText(containsIgnoringCase("Велосипед " + wheel)));
-        return this;
-    }
-
-    @Step
-    public ResultPageSteps shouldSeePrice(int index, int priceMin, int priceMax) {
-        if (isAvailable(index)) {
-            if (convertPriceToInt(onResultPage().resultRroducts().get(index).price().should(isDisplayed()).getText()) >= priceMin &&
-                    priceMax >= convertPriceToInt(onResultPage().resultRroducts().get(index).price().should(isDisplayed()).getText())) {
-                System.out.println("Price is filtered");
-            } else {
-                Assert.fail("Price is not filtered");
+    public ResultPageSteps shouldSortedByPrice() {
+        for (int i = 0; i < onResultPage().resultRroducts().size() - 1; i++) {
+            if (isAvailable(onResultPage().resultRroducts().get(i + 1))) {
+                if (convertPriceToInt(onResultPage().resultRroducts().get(i).price().should(isDisplayed()).getText())
+                        <= convertPriceToInt(onResultPage().resultRroducts().get(i + 1).price().should(isDisplayed()).getText())) {
+                    System.out.println("Price is sorted");
+                } else {
+                    Assert.fail("Price is not sorted");
+                }
             }
         }
         return this;
     }
 
     @Step
-    public ResultPageSteps inputPriceFilter(String priceMin, String priceMax) {
-        onResultPage().filterOptions().priceMin().should(isDisplayed()).clear();
-        onResultPage().filterOptions().priceMin().should(isDisplayed()).sendKeys(priceMin);
-        onResultPage().filterOptions().priceMax().should(isDisplayed()).clear();
-        onResultPage().filterOptions().priceMax().should(isDisplayed()).sendKeys(priceMax);
-        onResultPage().filterOptions().submitButton().should(isDisplayed()).click();
+    public boolean shouldSeePrice(Result product, int priceMin, int priceMax) {
+        if (isAvailable(product)) {
+            if (convertPriceToInt(product.price().should(isDisplayed()).getText()) >= priceMin &&
+                    priceMax >= convertPriceToInt(product.price().should(isDisplayed()).getText())) {
+                return true;
+            } else {
+                Assert.fail("Price is not filtered");
+            }
+        }
+        return false;
+    }
+
+    @Step
+    public ResultPageSteps inputPriceFilter(int priceMin, int priceMax) {
+        HtmlElement inputMinPrice = onResultPage().filterPrice().priceMin();
+        HtmlElement inputMaxPrice = onResultPage().filterPrice().priceMax();
+        inputMinPrice.clear();
+        inputMinPrice.sendKeys(String.valueOf(priceMin));
+        inputMaxPrice.clear();
+        inputMaxPrice.sendKeys(String.valueOf(priceMax));
+        onResultPage().filterPrice().submitButton().should(isDisplayed()).click();
         return this;
     }
 
     @Step
     public ResultPageSteps shouldSeeFilteredProducts(String manufacturer, String wheel, int priceMin, int priceMax) {
-        for (int i = 0; i < onResultPage().resultRroducts().size(); i++) {
-            shouldSeeManufacturer(i, manufacturer);
-            shouldSeeWheel(i, wheel);
-            shouldSeePrice(i, priceMin, priceMax);
-        }
+        onResultPage().resultRroducts()
+                .waitUntil(not(empty()))
+                .filter(resultProduct -> resultProduct.name().should(isDisplayed()).getText().toLowerCase().contains(manufacturer))
+                .filter(resultProduct -> resultProduct.name().should(isDisplayed()).getText().contains("Велосипед " + wheel))
+                .filter(resultProduct -> shouldSeePrice(resultProduct, priceMin, priceMax))
+                .should(hasSize(greaterThan(0)));
         return this;
     }
 }
+

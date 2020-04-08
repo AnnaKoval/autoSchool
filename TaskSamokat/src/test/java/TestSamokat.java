@@ -7,9 +7,10 @@ public class TestSamokat extends BaseTest {
         homePageSteps.selectWomenCityBikes()
                 .selectSortPriceAscending()
                 .shouldSeeResultList()
-                .inputPriceFilter("10000","10700")
-                .selectFilter("pride")
-                .selectFilter("20")
+                .shouldSortedByPrice()
+                .inputPriceFilter(10000,10700)
+                .selectFilter("Производитель:","pride")
+                //.selectFilter("Диаметр колеса (дюймов):", "20")
                 .shouldSeeFilteredProducts("pride", "20",10000, 10700);
 
     }
