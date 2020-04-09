@@ -9,6 +9,11 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import pages.ResultPage;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static matchers.CaseInsensitiveSubstringMatcher.containsIgnoringCase;
+import static matchers.HasTextMatcher.hasText;
 import static matchers.IsDisplayedMatcher.isDisplayed;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
@@ -37,11 +42,21 @@ public class ResultPageSteps extends WebDriverSteps {
     }
 
     @Step
-    public ResultPageSteps selectFilter(String filterTitle, String filterOption) {
-        ((JavascriptExecutor) driver).executeScript("arguments[0]",
-                onResultPage().checkboxOptions().selectOption().title(filterTitle).findElement(By.xpath("self::*")));
+    public ResultPageSteps selectMake(String filterOption) {
+        selectFilter("brands_filter_wrap", filterOption);
+        return this;
+    }
+
+    @Step
+    public ResultPageSteps selectWheel(String filterOption) {
+        selectFilter("filter_wrap_options", filterOption);
+        return this;
+    }
+
+    @Step
+    public ResultPageSteps selectFilter(String filter, String filterOption) {
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();",
-                onResultPage().checkboxOptions().selectOption().selectOption(filterOption).findElement(By.xpath("self::*")));
+                onResultPage().checkboxOptions().selectOption(filter).selectOption(filterOption).findElement(By.xpath("self::*")));
         return this;
     }
 
@@ -97,11 +112,13 @@ public class ResultPageSteps extends WebDriverSteps {
     @Step
     public ResultPageSteps shouldSeeFilteredProducts(String manufacturer, String wheel, int priceMin, int priceMax) {
         onResultPage().resultRroducts()
-                .waitUntil(not(empty()))
-                .filter(resultProduct -> resultProduct.name().should(isDisplayed()).getText().toLowerCase().contains(manufacturer))
-                .filter(resultProduct -> resultProduct.name().should(isDisplayed()).getText().contains("Велосипед " + wheel))
-                .filter(resultProduct -> shouldSeePrice(resultProduct, priceMin, priceMax))
-                .should(hasSize(greaterThan(0)));
+                .stream().collect(Collectors.toList())
+                .forEach(resultProduct -> shouldSeePrice(resultProduct, priceMin, priceMax));
+        onResultPage().resultRroducts()
+                .stream().collect(Collectors.toList())
+                .forEach(resultProduct -> resultProduct.name().should(isDisplayed()).should(hasText(containsIgnoringCase(manufacturer))));
+        //onResultPage().resultRroducts().stream().collect(Collectors.toList())
+           //     .forEach(resultProduct -> resultProduct.name().should(isDisplayed()).should(hasText(containsIgnoringCase("Велосипед " + wheel))));
         return this;
     }
 }

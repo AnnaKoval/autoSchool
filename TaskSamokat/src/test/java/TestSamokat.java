@@ -9,8 +9,8 @@ public class TestSamokat extends BaseTest {
                 .shouldSeeResultList()
                 .shouldSortedByPrice()
                 .inputPriceFilter(10000,10700)
-                .selectFilter("Производитель:","pride")
-                //.selectFilter("Диаметр колеса (дюймов):", "20")
+                .selectMake("pride")
+                //.selectWheel("20")
                 .shouldSeeFilteredProducts("pride", "20",10000, 10700);
 
     }
