@@ -7,11 +7,11 @@ public class TestSamokat extends BaseTest {
         homePageSteps.selectWomenCityBikes()
                 .selectSortPriceAscending()
                 .shouldSeeResultList()
-                .shouldSortedByPrice()
-                .inputPriceFilter(10000,10700)
+                .resultsShouldBeSortedByPrice()
+                .inputPriceFilter(10000, 10700)
                 .selectMake("pride")
-                //.selectWheel("20")
-                .shouldSeeFilteredProducts("pride", "20",10000, 10700);
+                .selectWheel("20")
+                .shouldSeeFilteredProducts("pride", "20", 10000, 10700);
 
     }
 }

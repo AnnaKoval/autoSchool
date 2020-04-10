@@ -1,19 +1,16 @@
 package steps;
 
-import blocks.Result;
 import elem.HtmlElement;
 import io.qameta.allure.Step;
-import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import pages.ResultPage;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import static matchers.CaseInsensitiveSubstringMatcher.containsIgnoringCase;
+import static matchers.HasIntegerMatcher.hasInteger;
 import static matchers.HasTextMatcher.hasText;
+import static matchers.IsCollectionSorted.isSorted;
 import static matchers.IsDisplayedMatcher.isDisplayed;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
@@ -42,59 +39,31 @@ public class ResultPageSteps extends WebDriverSteps {
     }
 
     @Step
+    public ResultPageSteps selectFilter(String filterName, String filterOption) {
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();",
+                onResultPage().optionsBlock(filterName).option(filterOption).findElement(By.xpath("self::*")));
+        return this;
+    }
+
+    @Step
     public ResultPageSteps selectMake(String filterOption) {
-        selectFilter("brands_filter_wrap", filterOption);
+        selectFilter("Производитель:", filterOption);
         return this;
     }
 
     @Step
     public ResultPageSteps selectWheel(String filterOption) {
-        selectFilter("filter_wrap_options", filterOption);
+        selectFilter("Диаметр колеса (дюймов):", filterOption);
         return this;
     }
 
     @Step
-    public ResultPageSteps selectFilter(String filter, String filterOption) {
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();",
-                onResultPage().checkboxOptions().selectOption(filter).selectOption(filterOption).findElement(By.xpath("self::*")));
+    public ResultPageSteps resultsShouldBeSortedByPrice() {
+        onResultPage().resultRroducts()
+                .filter(result -> result.isAvailable().should(isDisplayed()).getText().contains("Есть в наличии"))
+                .extract(result -> Integer.valueOf(result.price().getText().replace(" ", "")))
+                .should(isSorted());
         return this;
-    }
-
-    public int convertPriceToInt(String strPrice) {
-        return Integer.valueOf(strPrice.replace(" ", ""));
-    }
-
-    @Step
-    public boolean isAvailable(Result product) {
-        return product.isAvailable().should(isDisplayed()).getText().contains("Есть в наличии");
-    }
-
-    @Step
-    public ResultPageSteps shouldSortedByPrice() {
-        for (int i = 0; i < onResultPage().resultRroducts().size() - 1; i++) {
-            if (isAvailable(onResultPage().resultRroducts().get(i + 1))) {
-                if (convertPriceToInt(onResultPage().resultRroducts().get(i).price().should(isDisplayed()).getText())
-                        <= convertPriceToInt(onResultPage().resultRroducts().get(i + 1).price().should(isDisplayed()).getText())) {
-                    System.out.println("Price is sorted");
-                } else {
-                    Assert.fail("Price is not sorted");
-                }
-            }
-        }
-        return this;
-    }
-
-    @Step
-    public boolean shouldSeePrice(Result product, int priceMin, int priceMax) {
-        if (isAvailable(product)) {
-            if (convertPriceToInt(product.price().should(isDisplayed()).getText()) >= priceMin &&
-                    priceMax >= convertPriceToInt(product.price().should(isDisplayed()).getText())) {
-                return true;
-            } else {
-                Assert.fail("Price is not filtered");
-            }
-        }
-        return false;
     }
 
     @Step
@@ -112,14 +81,13 @@ public class ResultPageSteps extends WebDriverSteps {
     @Step
     public ResultPageSteps shouldSeeFilteredProducts(String manufacturer, String wheel, int priceMin, int priceMax) {
         onResultPage().resultRroducts()
-                .stream().collect(Collectors.toList())
-                .forEach(resultProduct -> shouldSeePrice(resultProduct, priceMin, priceMax));
+                .extract(result -> result.name())
+                .should(everyItem(hasText(containsIgnoringCase(manufacturer))))
+                .should(everyItem(hasText(containsIgnoringCase("Велосипед " + wheel))));
         onResultPage().resultRroducts()
-                .stream().collect(Collectors.toList())
-                .forEach(resultProduct -> resultProduct.name().should(isDisplayed()).should(hasText(containsIgnoringCase(manufacturer))));
-        //onResultPage().resultRroducts().stream().collect(Collectors.toList())
-           //     .forEach(resultProduct -> resultProduct.name().should(isDisplayed()).should(hasText(containsIgnoringCase("Велосипед " + wheel))));
+                .extract(result -> result.price())
+                .should(everyItem(hasInteger(greaterThanOrEqualTo(priceMin))))
+                .should(everyItem(hasInteger(lessThanOrEqualTo(priceMax))));
         return this;
     }
 }
-

@@ -7,5 +7,6 @@ import io.qameta.atlas.webdriver.extension.Param;
 
 public interface Option extends AtlasWebElement<Option> {
     @FindBy(".//input[@value='{{ value }}']/following-sibling::span")
-    HtmlElement selectOption(@Param("value") String value);
+    HtmlElement option(@Param("value") String value);
+
 }
