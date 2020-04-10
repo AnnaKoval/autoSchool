@@ -46,14 +46,21 @@ public class ResultPageSteps extends WebDriverSteps {
     }
 
     @Step
+    public ResultPageSteps selectFilterInt(String filterName, int filterOption) {
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();",
+                onResultPage().optionsBlock(filterName).option(String.valueOf(filterOption)).findElement(By.xpath("self::*")));
+        return this;
+    }
+
+    @Step
     public ResultPageSteps selectMake(String filterOption) {
         selectFilter("Производитель:", filterOption);
         return this;
     }
 
     @Step
-    public ResultPageSteps selectWheel(String filterOption) {
-        selectFilter("Диаметр колеса (дюймов):", filterOption);
+    public ResultPageSteps selectWheel(int filterOption) {
+        selectFilterInt("Диаметр колеса (дюймов):", filterOption);
         return this;
     }
 
@@ -79,7 +86,7 @@ public class ResultPageSteps extends WebDriverSteps {
     }
 
     @Step
-    public ResultPageSteps shouldSeeFilteredProducts(String manufacturer, String wheel, int priceMin, int priceMax) {
+    public ResultPageSteps shouldSeeFilteredProducts(String manufacturer, int wheel, int priceMin, int priceMax) {
         onResultPage().resultRroducts()
                 .extract(result -> result.name())
                 .should(everyItem(hasText(containsIgnoringCase(manufacturer))))
