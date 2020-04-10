@@ -1,7 +1,6 @@
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.*;
 import steps.HomePageSteps;
 
 import java.util.concurrent.TimeUnit;
@@ -11,7 +10,7 @@ public class BaseTest {
     protected String url = "https://samokat.ua/";
     protected WebDriver driver;
 
-    @BeforeTest
+    @BeforeMethod
     public void setUp() {
         System.setProperty("webdriver.chrome.driver", "tools/chromedriver.exe");
         driver = new ChromeDriver();
@@ -21,7 +20,7 @@ public class BaseTest {
         homePageSteps = new HomePageSteps(driver);
     }
 
-    @AfterTest
+    @AfterMethod
     public void stopDriver() {
         driver.quit();
     }

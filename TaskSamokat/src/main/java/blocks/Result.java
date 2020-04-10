@@ -13,4 +13,7 @@ public interface Result extends AtlasWebElement<Result> {
 
     @FindBy(".//h3/a")
     HtmlElement name();
+
+    @FindBy(".//s")
+    HtmlElement discount();
 }
