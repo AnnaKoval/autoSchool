@@ -60,12 +60,12 @@ public class TestSamokat extends BaseTest {
     public void testPagination(String section, String[] arr) {
         SectionPageSteps sectionPageSteps = homePageSteps.selectSection(section);
         sectionPageSteps.shouldSeePageSection(section, arr)
-                .shouldSeePage("/catalog/begovely/")
-                .openPage("/catalog/begovely/?page=2")
-                .shouldSeePage("/catalog/begovely/?page=2")
-                .openPage("/catalog/begovely/?page=3")
-                .shouldSeePage("/catalog/begovely/?page=3")
-                .openPage("/catalog/begovely/?page=2")
-                .shouldSeePage("/catalog/begovely/?page=2");
+                .shouldSeePage("1")
+                .openPage("2")
+                .shouldSeePage("2")
+                .openNextPage()
+                .shouldSeePage("3")
+                .openPrevPage()
+                .shouldSeePage("2");
     }
 }

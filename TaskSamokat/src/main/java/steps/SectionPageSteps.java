@@ -63,6 +63,18 @@ public class SectionPageSteps extends WebDriverSteps {
     }
 
     @Step
+    public SectionPageSteps openNextPage() {
+        onSectionPage().pagination().nextPage().should(isDisplayed()).click();
+        return new SectionPageSteps(driver);
+    }
+
+    @Step
+    public SectionPageSteps openPrevPage() {
+        onSectionPage().pagination().previousPage().should(isDisplayed()).click();
+        return new SectionPageSteps(driver);
+    }
+
+    @Step
     public SectionPageSteps shouldSeePage(String page) {
         onSectionPage().pagination().page(page).should(isSelected());
         return new SectionPageSteps(driver);
