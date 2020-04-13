@@ -7,7 +7,7 @@ import io.qameta.atlas.webdriver.extension.Param;
 
 public interface Page extends AtlasWebElement<Page> {
     @FindBy("./a[text()= '{{ value }}']")
-    HtmlElement page(@Param("value") String value);
+    HtmlElement page(@Param("value") int value);
 
     @FindBy("./a[@class= 'next_page_link']")
     HtmlElement nextPage();

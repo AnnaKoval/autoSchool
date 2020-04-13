@@ -16,18 +16,6 @@ public class TestSamokat extends BaseTest {
         };
     }
 
-    @DataProvider(name = "Pagination")
-    public static Object[][] testDataPagination() {
-        return new Object[][]{
-                {"Беговелы",
-                        new String[]{"Беговелы для детей от 1 года",
-                                "Беговелы для детей от 1,5 года",
-                                "Беговелы для детей от 2 лет",
-                                "Беговелы для детей от 3 лет"}}
-        };
-    }
-
-
     @Test
     public void testSamokat() {
         homePageSteps.selectWomenCityBikes()
@@ -56,16 +44,20 @@ public class TestSamokat extends BaseTest {
                 .shouldSeeSectionHeader("Скидки и Распродажи");
     }
 
-    @Test(dataProvider = "Pagination")
-    public void testPagination(String section, String[] arr) {
-        SectionPageSteps sectionPageSteps = homePageSteps.selectSection(section);
-        sectionPageSteps.shouldSeePageSection(section, arr)
-                .shouldSeePage("1")
-                .openPage("2")
-                .shouldSeePage("2")
+    @Test
+    public void testPagination() {
+        SectionPageSteps sectionPageSteps = homePageSteps.selectSection("Беговелы");
+        sectionPageSteps.shouldSeePageSection("Беговелы",
+                new String[]{"Беговелы для детей от 1 года",
+                        "Беговелы для детей от 1,5 года",
+                        "Беговелы для детей от 2 лет",
+                        "Беговелы для детей от 3 лет"})
+                .shouldSeePage(1)
+                .openPage(2)
+                .shouldSeePage(2)
                 .openNextPage()
-                .shouldSeePage("3")
+                .shouldSeePage(3)
                 .openPrevPage()
-                .shouldSeePage("2");
+                .shouldSeePage(2);
     }
 }

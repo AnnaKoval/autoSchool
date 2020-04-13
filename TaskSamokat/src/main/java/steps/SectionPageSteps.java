@@ -57,7 +57,7 @@ public class SectionPageSteps extends WebDriverSteps {
     }
 
     @Step
-    public SectionPageSteps openPage(String page) {
+    public SectionPageSteps openPage(int page) {
         onSectionPage().pagination().page(page).should(isDisplayed()).click();
         return new SectionPageSteps(driver);
     }
@@ -75,7 +75,7 @@ public class SectionPageSteps extends WebDriverSteps {
     }
 
     @Step
-    public SectionPageSteps shouldSeePage(String page) {
+    public SectionPageSteps shouldSeePage(int page) {
         onSectionPage().pagination().page(page).should(isSelected());
         return new SectionPageSteps(driver);
     }
