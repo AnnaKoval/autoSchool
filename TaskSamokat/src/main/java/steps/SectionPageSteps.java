@@ -7,6 +7,7 @@ import pages.SectionPage;
 import static matchers.CaseInsensitiveSubstringMatcher.containsIgnoringCase;
 import static matchers.HasTextMatcher.hasText;
 import static matchers.IsDisplayedMatcher.isDisplayed;
+import static matchers.IsSelectedMatcher.isSelected;
 import static org.hamcrest.Matchers.everyItem;
 
 public class SectionPageSteps extends WebDriverSteps {
@@ -63,7 +64,7 @@ public class SectionPageSteps extends WebDriverSteps {
 
     @Step
     public SectionPageSteps shouldSeePage(String page) {
-        onSectionPage().pagination().page(page).should(isDisplayed()).should(hasText(page));
+        onSectionPage().pagination().page(page).should(isSelected());
         return new SectionPageSteps(driver);
     }
 

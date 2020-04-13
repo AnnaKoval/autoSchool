@@ -6,6 +6,6 @@ import io.qameta.atlas.webdriver.extension.FindBy;
 import io.qameta.atlas.webdriver.extension.Param;
 
 public interface Page extends AtlasWebElement<Page> {
-    @FindBy("./a[contains(text(), '{{ value }}')]")
+    @FindBy("./a[@href='{{ value }}']")
     HtmlElement page(@Param("value") String value);
 }
