@@ -46,8 +46,8 @@ public class TestSamokat extends BaseTest {
 
     @Test
     public void testPagination() {
-        SectionPageSteps sectionPageSteps = homePageSteps.selectSection("Беговелы");
-        sectionPageSteps.shouldSeePageSection("Беговелы",
+        homePageSteps.selectSection("Беговелы")
+                .shouldSeePageSection("Беговелы",
                 new String[]{"Беговелы для детей от 1 года",
                         "Беговелы для детей от 1,5 года",
                         "Беговелы для детей от 2 лет",
