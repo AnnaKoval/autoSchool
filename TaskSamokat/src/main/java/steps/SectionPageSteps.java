@@ -62,6 +62,12 @@ public class SectionPageSteps extends WebDriverSteps {
     }
 
     @Step
+    public SectionPageSteps shouldSeePage(String page) {
+        onSectionPage().pagination().page(page).should(isDisplayed()).should(hasText(page));
+        return new SectionPageSteps(driver);
+    }
+
+    @Step
     public SectionPageSteps shouldSeePageSection(String section, String[] arr) {
         shouldSeeSectionName(section);
         shouldSeeSection(arr);
