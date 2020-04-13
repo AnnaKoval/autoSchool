@@ -6,8 +6,9 @@ import io.qameta.atlas.webdriver.ElementsCollection;
 import io.qameta.atlas.webdriver.WebPage;
 import io.qameta.atlas.webdriver.extension.FindBy;
 import layout.LeftSectionBlock;
+import layout.Pagination;
 
-public interface SectionPage extends WebPage, LeftSectionBlock {
+public interface SectionPage extends WebPage, LeftSectionBlock, Pagination {
     @FindBy("//*[@id='content']/h1")
     HtmlElement sectionHeader();
 

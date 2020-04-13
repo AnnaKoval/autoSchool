@@ -1,5 +1,6 @@
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import steps.SectionPageSteps;
 
 public class TestSamokat extends BaseTest {
 
@@ -14,6 +15,18 @@ public class TestSamokat extends BaseTest {
                 {"Скейтборды", new String[]{"Пенниборды", "Круизеры", "Лонгборды", "Рипстики (вейвборды)", "Скейтборды классические"}}
         };
     }
+
+    @DataProvider(name = "Pagination")
+    public static Object[][] testDataPagination() {
+        return new Object[][]{
+                {"Беговелы",
+                        new String[]{"Беговелы для детей от 1 года",
+                                "Беговелы для детей от 1,5 года",
+                                "Беговелы для детей от 2 лет",
+                                "Беговелы для детей от 3 лет"}}
+        };
+    }
+
 
     @Test
     public void testSamokat() {
@@ -41,5 +54,17 @@ public class TestSamokat extends BaseTest {
         homePageSteps.selectSection("Скидки")
                 .shouldSeeDiscountSection()
                 .shouldSeeSectionHeader("Скидки и Распродажи");
+    }
+
+    @Test(dataProvider = "Pagination")
+    public void testPagination(String section, String[] arr) {
+        SectionPageSteps sectionPageSteps = homePageSteps.selectSection(section);
+        sectionPageSteps.shouldSeePageSection(section, arr)
+                .openPage("2")
+                .shouldSeePageSection(section, arr)
+                .openPage("3")
+                .shouldSeePageSection(section, arr)
+                .openPage("2")
+                .shouldSeePageSection(section, arr);
     }
 }

@@ -41,7 +41,7 @@ public class SectionPageSteps extends WebDriverSteps {
 
     @Step
     public SectionPageSteps shouldSeeSection(String[] subsections) {
-        for (String subsection:subsections) {
+        for (String subsection : subsections) {
             onSectionPage().leftSection().subSectionName(subsection).should(isDisplayed()).should(hasText(containsIgnoringCase(subsection)));
         }
         return this;
@@ -51,7 +51,22 @@ public class SectionPageSteps extends WebDriverSteps {
     public SectionPageSteps shouldSeeResultName(String section) {
         onSectionPage().resultRroducts()
                 .extract(result -> result.name())
-                .should(everyItem(hasText(containsIgnoringCase(section.substring(0, section.length()-1)))));
+                .should(everyItem(hasText(containsIgnoringCase(section.substring(0, section.length() - 1)))));
+        return this;
+    }
+
+    @Step
+    public SectionPageSteps openPage(String page) {
+        onSectionPage().pagination().page(page).should(isDisplayed()).click();
+        return new SectionPageSteps(driver);
+    }
+
+    @Step
+    public SectionPageSteps shouldSeePageSection(String section, String[] arr) {
+        shouldSeeSectionName(section);
+        shouldSeeSection(arr);
+        shouldSeeSectionHeader(section);
+        shouldSeeResultName(section);
         return this;
     }
 }
