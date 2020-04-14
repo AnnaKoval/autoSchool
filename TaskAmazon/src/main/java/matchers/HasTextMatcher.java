@@ -33,15 +33,14 @@ public class HasTextMatcher extends TypeSafeMatcher<WebElement> {
     }
 
     @Override
-    protected boolean matchesSafely(WebElement elem) {
-        return m.matches(elem.getText());
+    protected boolean matchesSafely(WebElement quantity) {
+        return m.matches(quantity.getText());
     }
 
     @Override
     protected void describeMismatchSafely(WebElement item, Description mismatchDescription) {
-        mismatchDescription.appendText("text of element ")
-                .appendValue(item)
-                .appendText(" was ")
-                .appendValue(item.getText());
+        mismatchDescription.appendText("Web element text does not matches ")
+                .appendDescriptionOf(m);
+        super.describeMismatchSafely(item, mismatchDescription);
     }
 }

@@ -1,4 +1,4 @@
-package elem;
+package blocks;
 
 import io.qameta.atlas.webdriver.AtlasWebElement;
 
