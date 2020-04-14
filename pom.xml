@@ -18,6 +18,7 @@
         <module>11-SeleniumWebDriver</module>
         <module>AutoPractice</module>
         <module>TaskSamokat</module>
+        <module>TaskAmazon</module>
     </modules>
 
     <build>
