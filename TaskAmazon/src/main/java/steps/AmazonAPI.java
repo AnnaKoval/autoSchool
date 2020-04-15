@@ -1,13 +1,11 @@
 package steps;
 
 import ListResource.AmazonResponse;
-import com.sun.javafx.fxml.builder.URLBuilder;
 import io.qameta.allure.Step;
 import org.apache.http.client.utils.URIBuilder;
 
 
 import java.net.URISyntaxException;
-import java.net.URL;
 
 import static com.jayway.restassured.RestAssured.given;
 
