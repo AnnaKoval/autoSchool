@@ -19,7 +19,6 @@ public class BaseTest {
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.get(url);
         amazonMainPageSteps = new AmazonMainPageSteps(driver);
-        amazonMainPageSteps.setRequestSpecification();
     }
 
     @AfterMethod(alwaysRun = true)
