@@ -7,6 +7,7 @@ import io.qameta.atlas.webdriver.ElementsCollection;
 import org.openqa.selenium.WebDriver;
 import pages.AmazonMainPage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.stream.Collectors.counting;
@@ -48,17 +49,16 @@ public class AmazonMainPageSteps extends WebDriverSteps {
     @Step
     public List<String> getKeyWordsList() {
         ElementsCollection<HtmlElement> suggestions = onAmazonMainPage().suggestion();
-        List<String> keyWords = null;
+        List<String> keyWords = new ArrayList<>();
         for (HtmlElement item : suggestions) {
             keyWords.add(item.getAttribute("data-keyword"));
-            System.out.println(item.getAttribute("data-keyword"));
         }
         return keyWords;
     }
 
     @Step
     public List<String> getValuesList(List<SuggestionsList> suggestionsLists) {
-        List<String> values = null;
+        List<String> values = new ArrayList<>();
         for (SuggestionsList item : suggestionsLists) {
             values.add(item.getValue());
         }

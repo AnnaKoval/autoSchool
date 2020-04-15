@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.*;
         "value"
 })
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SuggestionsList {
 
     @JsonProperty("value")

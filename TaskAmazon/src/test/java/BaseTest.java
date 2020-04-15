@@ -20,7 +20,6 @@ public class BaseTest {
     @BeforeTest
     public void setup() {
         spec = new RequestSpecBuilder()
-                .setContentType(ContentType.HTML)
                 .setContentType(ContentType.JSON)
                 .setBaseUri(url)
                 .addFilter(new ResponseLoggingFilter(LogDetail.BODY))
