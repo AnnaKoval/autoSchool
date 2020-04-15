@@ -18,9 +18,4 @@ public class AmazonResponse {
     public List<SuggestionsList> getSuggestions() {
         return suggestions;
     }
-
-    @JsonProperty("suggestions")
-    public void setSuggestions(List<SuggestionsList> suggestions) {
-        this.suggestions = suggestions;
-    }
 }

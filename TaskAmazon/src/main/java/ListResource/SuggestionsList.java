@@ -17,10 +17,4 @@ public class SuggestionsList {
     public String getValue() {
         return value;
     }
-
-    @JsonProperty("value")
-    public void setValue(String value) {
-        this.value = value;
-    }
-
 }
