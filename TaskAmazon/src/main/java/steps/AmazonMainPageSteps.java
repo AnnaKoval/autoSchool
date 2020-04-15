@@ -1,15 +1,18 @@
 package steps;
 
+import ListResource.SuggestionsList;
 import blocks.HtmlElement;
-import blocks.Suggestions;
 import io.qameta.allure.Step;
 import io.qameta.atlas.webdriver.ElementsCollection;
 import org.openqa.selenium.WebDriver;
 import pages.AmazonMainPage;
 
+import java.util.List;
+
+import static java.util.stream.Collectors.counting;
+import static java.util.stream.Collectors.groupingBy;
 import static matchers.IsDisplayedMatcher.isDisplayed;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
+import static org.junit.Assert.assertTrue;
 
 public class AmazonMainPageSteps extends WebDriverSteps {
 
@@ -35,11 +38,30 @@ public class AmazonMainPageSteps extends WebDriverSteps {
     }
 
     @Step
-    public ElementsCollection<Suggestions> getSuggestionsCollection() {
-        ElementsCollection<Suggestions> suggestions = onAmazonMainPage().suggestions();
-              //  .should(isDisplayed())
-              //  .should(hasSize(greaterThan(0)));
+    public void shouldSeeSuggestions(List<SuggestionsList> suggestionsLists) {
+        List<String> keyWords = getKeyWordsList();
+        List<String> values = getValuesList(suggestionsLists);
+        assertTrue(keyWords.stream().collect(groupingBy(key -> key, counting()))
+                .equals(values.stream().collect(groupingBy(val -> val, counting()))));
+    }
 
-        return suggestions;
+    @Step
+    public List<String> getKeyWordsList() {
+        ElementsCollection<HtmlElement> suggestions = onAmazonMainPage().suggestion();
+        List<String> keyWords = null;
+        for (HtmlElement item : suggestions) {
+            keyWords.add(item.getAttribute("data-keyword"));
+            System.out.println(item.getAttribute("data-keyword"));
+        }
+        return keyWords;
+    }
+
+    @Step
+    public List<String> getValuesList(List<SuggestionsList> suggestionsLists) {
+        List<String> values = null;
+        for (SuggestionsList item : suggestionsLists) {
+            values.add(item.getValue());
+        }
+        return values;
     }
 }
