@@ -19,6 +19,7 @@
         <module>AutoPractice</module>
         <module>TaskSamokat</module>
         <module>TaskAmazon</module>
+        <module>AppBuddyCloud</module>
     </modules>
 
     <build>
