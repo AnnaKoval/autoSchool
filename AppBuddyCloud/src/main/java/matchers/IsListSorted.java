@@ -6,7 +6,6 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -30,3 +29,4 @@ public class IsListSorted extends TypeSafeMatcher<List<String>> {
         return new IsListSorted();
     }
 }
+

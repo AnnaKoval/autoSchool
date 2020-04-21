@@ -7,6 +7,8 @@ public class AppBuddyCloudTest extends BaseTest {
     public void shouldBeSortedByName() {
         AppBuddyCloud appBuddyCloud = new AppBuddyCloud();
         String token = "Bearer " + appBuddyCloud.authorizationRequest(spec).getToken();
-        appBuddyCloud.rowsShouldBeSortedByName(appBuddyCloud.getSortedAskRowsRequest(spec, token).getRows());
+        appBuddyCloud.rowsShouldBeSortedByName(appBuddyCloud
+                .getSortedAskRowsRequest(token)
+                .getRows());
     }
 }
