@@ -20,6 +20,7 @@
         <module>TaskSamokat</module>
         <module>TaskAmazon</module>
         <module>AppBuddyCloud</module>
+        <module>CarSoupTest</module>
     </modules>
 
     <build>
