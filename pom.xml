@@ -21,6 +21,7 @@
         <module>TaskAmazon</module>
         <module>AppBuddyCloud</module>
         <module>CarSoupTest</module>
+        <module>CarSoupTask</module>
     </modules>
 
     <build>

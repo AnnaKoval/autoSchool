@@ -9,8 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>CarSoupTest</artifactId>
-
+    <artifactId>CarSoupTask</artifactId>
     <properties>
         <compiler.version>1.8</compiler.version>
         <aspectj.version>1.8.10</aspectj.version>
