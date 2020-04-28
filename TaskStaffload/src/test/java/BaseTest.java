@@ -1,13 +1,12 @@
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.*;
-import steps.HomePageSteps;
+import steps.LoginPageSteps;
 
 import java.util.concurrent.TimeUnit;
 
 public class BaseTest {
-    protected HomePageSteps homePageSteps;
-    protected String url = "https://www.carsoup.com/?address=Young+America+MN";
+    protected LoginPageSteps homePageSteps;
     protected WebDriver driver;
 
     @BeforeMethod
@@ -16,8 +15,7 @@ public class BaseTest {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        driver.get(url);
-        homePageSteps = new HomePageSteps(driver);
+        homePageSteps = new LoginPageSteps(driver);
     }
 
     @AfterMethod
