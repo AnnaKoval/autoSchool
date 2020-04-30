@@ -23,6 +23,7 @@
         <module>CarSoupTest</module>
         <module>CarSoupTask</module>
         <module>TaskStaffload</module>
+        <module>TaskStaffloadAPI</module>
     </modules>
 
     <build>
